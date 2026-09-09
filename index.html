@@ -2513,7 +2513,7 @@ function loadShortcuts() {
     shortcutsArea.value = cached;
   }
   
-  fetch("https://raw.githubusercontent.com/doducdungvn/lucky/refs/heads/main/nhaptat.txt")
+  fetch("https://raw.githubusercontent.com/lalazwell/lalazwell.github.io/refs/heads/main/nhaptat.txt")
     .then(response => {
       if (!response.ok) throw new Error("Network response was not ok");
       return response.text();
@@ -6207,11 +6207,21 @@ function updateTransferStepsUI() {
           .map(Number)
           .sort((a, b) => a - b);
 
-        const groupStrings = sortedAmounts.map(amt => {
-          const nums = amountGroups[amt];
-          nums.sort((a, b) => a.localeCompare(b, undefined, {numeric: true}));
-          return `${nums.join('.')}${cat.key === 'xien' ? ' ' : ''}x${amt}`;
-        });
+        const groupStrings = [];
+        if (cat.key === 'xien') {
+          sortedAmounts.forEach(amt => {
+            const nums = amountGroups[amt];
+            nums.forEach(n => {
+              groupStrings.push(`${n}x${amt}`);
+            });
+          });
+        } else {
+          sortedAmounts.forEach(amt => {
+            const nums = amountGroups[amt];
+            nums.sort((a, b) => a.localeCompare(b, undefined, {numeric: true}));
+            groupStrings.push(`${nums.join('.')}x${amt}`);
+          });
+        }
 
         parts.push(`<strong>${cat.name}</strong> ${groupStrings.join(', ')}`);
       }
