@@ -1,0 +1,2813 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <title>☆ Lucky Wheel ☆</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="html2canvas.min.js"></script>
+  <style>
+    /* === BỐ CỤC CHUNG & TỐI GIẢN CHUYÊN NGHIỆP === */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 15px;
+      line-height: 1.5;
+    }
+
+    .main-wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .container {
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      padding: 18px;
+      display: flex;
+      gap: 20px;
+    }
+
+    /* === KHU VỰC NHẬP LIỆU BÊN TRÁI === */
+    .left-column {
+      flex: 1.1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .input-section {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .input-section label {
+      font-weight: 600;
+      font-size: 13px;
+      color: #374151;
+    }
+
+    textarea {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 3px;
+      padding: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      resize: vertical;
+      background-color: #ffffff;
+      color: #111827;
+    }
+
+    textarea:focus,
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #4b5563;
+    }
+
+    #numbers {
+      height: 220px;
+    }
+
+    #twentySevenNumbers {
+      height: 70px;
+    }
+
+    #shortcuts {
+      height: 85px;
+    }
+
+    /* === CÁC NÚT BẤM (GỌN GÀNG, TRUNG TÍNH, NẰM TRÊN 1 HÀNG) === */
+    .button-group {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 5px;
+      align-items: center;
+      width: 100%;
+    }
+
+    .button-group button {
+      flex: 1 1 0;
+      min-width: 0;
+      background-color: #374151;
+      color: #ffffff;
+      border: 1px solid #1f2937;
+      padding: 7px 3px;
+      font-size: 11.5px;
+      font-weight: 500;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+      white-space: nowrap;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .button-group button:hover {
+      background-color: #1f2937;
+    }
+
+    /* === KHUNG CÀI ĐẶT GIỮ LẠI (PHÂN LOẠI HÌNH, TIỀN/%, GIỚI HẠN) === */
+    .retain-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+      margin-top: 2px;
+      background: #f9fafb;
+      padding: 8px 10px;
+      border-radius: 4px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .retain-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .retain-title {
+      font-weight: 600;
+      color: #374151;
+      font-size: 12px;
+    }
+
+    .retain-desc {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .retain-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 3px;
+    }
+
+    .retain-table th {
+      background: #f3f4f6;
+      color: #4b5563;
+      font-weight: 600;
+      padding: 4px 5px;
+      text-align: center;
+      border-bottom: 1px solid #e5e7eb;
+      border-right: 1px solid #f3f4f6;
+      font-size: 11px;
+    }
+
+    .retain-table td {
+      padding: 4px 5px;
+      border-bottom: 1px solid #f3f4f6;
+      border-right: 1px solid #f3f4f6;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .retain-table td.cat-label {
+      font-weight: 600;
+      color: #1f2937;
+      background: #fafafa;
+      width: 16%;
+    }
+
+    .retain-table input[type="number"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 4px 4px;
+      font-size: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 3px;
+      text-align: center;
+      background: #ffffff;
+      color: #111827;
+    }
+
+    .retain-table select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 4px 2px;
+      font-size: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 3px;
+      text-align: center;
+      background: #ffffff;
+      color: #111827;
+      cursor: pointer;
+    }
+
+    .section-label-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-fetch-kqxs {
+      background-color: #059669;
+      color: #ffffff;
+      border: 1px solid #047857;
+      padding: 3px 8px;
+      font-size: 11.5px;
+      font-weight: 500;
+      border-radius: 3px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-fetch-kqxs:hover {
+      background-color: #047857;
+    }
+
+    .btn-fetch-kqxs:disabled {
+      background-color: #9ca3af;
+      border-color: #6b7280;
+      cursor: not-allowed;
+    }
+
+    .fetch-status {
+      font-size: 11px;
+      color: #059669;
+      margin-top: 2px;
+      min-height: 14px;
+    }
+
+    .footer-links {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 5px;
+    }
+
+    .footer-links a {
+      color: #4b5563;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* === KHU VỰC KẾT QUẢ BÊN PHẢI === */
+    .right-section {
+      flex: 1.9;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .summary-badge-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 8px 10px;
+      border-radius: 4px;
+    }
+
+    .summary-col-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 3px;
+      padding: 7px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .summary-col-header {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e293b;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 3px;
+      margin-bottom: 2px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .summary-col-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5px;
+      font-size: 11.5px;
+      color: #334155;
+      font-family: inherit;
+    }
+
+    .summary-col-body .summary-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .win-num {
+      color: #dc2626;
+      font-weight: 700;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .result-section {
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 3px;
+      display: flex;
+      flex-direction: column;
+      height: 440px;
+    }
+
+    .result-header {
+      background: #f3f4f6;
+      border-bottom: 1px solid #d1d5db;
+      padding: 8px 10px;
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .result-body {
+      padding: 10px;
+      overflow-y: auto;
+      flex: 1;
+      font-size: 13px;
+      font-family: "Consolas", "Courier New", monospace;
+    }
+
+    .red-text {
+      color: #b91c1c;
+      font-weight: 700;
+    }
+
+    .matching-number {
+      color: #b91c1c;
+      font-weight: 700;
+    }
+
+    .details-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .details-list li {
+      padding: 4px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Tiêu đề phân loại loại hình (Đề, Lô, Xiên, 3 Càng) cho 3 cột */
+    .category-header-badge {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 4px 8px;
+      margin: 8px 0 4px 0;
+      border-radius: 2px;
+      border-left: 3px solid #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .category-block {
+      margin-bottom: 8px;
+    }
+
+    .details-list li.cat-header {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 4px 8px;
+      margin: 6px 0 3px 0;
+      border-left: 3px solid #475569;
+      text-transform: uppercase;
+      border-bottom: none;
+    }
+
+    /* === BẢNG TÍNH TIỀN CƯỢC & THANH TOÁN (CHUYÊN NGHIỆP, KHÔNG MÀU MÈ) === */
+    .calc-container {
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      padding: 18px;
+    }
+
+    .calc-layout {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .calc-table-wrap {
+      flex: 1;
+    }
+
+    .pro-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid #9ca3af;
+      font-size: 13px;
+      background: #ffffff;
+    }
+
+    .pro-table th,
+    .pro-table td {
+      border: 1px solid #9ca3af;
+      padding: 6px 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .pro-table th {
+      background-color: #f3f4f6;
+      font-weight: 600;
+      color: #111827;
+      height: 34px;
+    }
+
+    .pro-table .cell-label {
+      font-weight: 600;
+      background-color: #fafafa;
+      width: 110px;
+    }
+
+    .table-input {
+      width: 80px;
+      height: 28px;
+      border: 1px solid #cbd5e1;
+      border-radius: 2px;
+      text-align: center;
+      font-size: 13px;
+      font-family: inherit;
+    }
+
+    .col-num {
+      text-align: right;
+      padding-right: 14px !important;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .col-center {
+      text-align: center;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .row-summary {
+      background-color: #f9fafb;
+      font-weight: 600;
+    }
+
+    .row-final {
+      background-color: #f3f4f6;
+      font-weight: 700;
+    }
+
+    /* Cài đặt giá & thưởng (Đề, Lô, X2, X3, X4, 3C Chính, 3C Áp má) */
+    .rate-card {
+      width: 290px;
+      border: 1px solid #9ca3af;
+      border-radius: 4px;
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .rate-card-header {
+      background: #f3f4f6;
+      border-bottom: 1px solid #9ca3af;
+      padding: 8px 12px;
+      font-weight: 700;
+      font-size: 13px;
+      text-align: center;
+      color: #111827;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .rate-card-body {
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .rate-table-header {
+      display: flex;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #4b5563;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #e5e7eb;
+      text-transform: uppercase;
+    }
+
+    .rate-table-header .th-label {
+      flex: 1;
+      padding-left: 2px;
+    }
+
+    .rate-table-header .th-val {
+      width: 82px;
+      text-align: center;
+    }
+
+    .rate-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 2px 0;
+    }
+
+    .rate-row label {
+      flex: 1;
+      font-weight: 600;
+      color: #1f2937;
+      white-space: nowrap;
+    }
+
+    .rate-input {
+      width: 82px;
+      height: 26px;
+      border: 1px solid #cbd5e1;
+      border-radius: 2px;
+      text-align: center;
+      font-size: 12px;
+      font-family: inherit;
+      padding: 0 4px;
+    }
+
+    .rate-input:focus {
+      border-color: #2563eb;
+      outline: none;
+      box-shadow: 0 0 0 1px #2563eb;
+    }
+
+    .rate-card-footer {
+      padding: 10px 12px;
+      border-top: 1px solid #9ca3af;
+      background: #f9fafb;
+    }
+
+    .btn-copy-image {
+      width: 100%;
+      background-color: #1f2937;
+      color: #ffffff;
+      border: 1px solid #111827;
+      padding: 8px 10px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-copy-image:hover {
+      background-color: #111827;
+    }
+
+    .btn-copy-image:disabled {
+      background-color: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 900px) {
+      .container,
+      .calc-layout {
+        flex-direction: column;
+      }
+
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .result-section {
+        height: 280px;
+      }
+
+      .rate-card {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main-wrapper">
+
+    <!-- KHU VỰC 1: NHẬP LIỆU VÀ PHÂN TÍCH KẾT QUẢ -->
+    <div class="container">
+      <!-- Cột trái: Nhập số -->
+      <div class="left-column">
+        <div class="input-section">
+          <label for="numbers">Nhập số:</label>
+          <textarea id="numbers" rows="6"></textarea>
+        </div>
+
+        <div class="button-group">
+          <button type="button" id="normalizeButton" title="Chuẩn hóa khoảng trắng và 27 giải">Chuẩn hóa 27</button>
+          <button type="button" id="calculateButton" title="Tính tổng cược và chuyển">Tính tổng</button>
+          <button type="button" id="copyButton" title="Sao chép danh sách số chuyển">Sao chép Chuyển</button>
+          <button type="button" id="copyInputListButton" title="Sao chép chi tiết input">Sao chép Input</button>
+        </div>
+
+        <div class="retain-box">
+          <div class="retain-header">
+            <span class="retain-title">Cài đặt giữ lại:</span>
+            <span class="retain-desc">(Dôi dư chuyển đi)</span>
+          </div>
+          <table class="retain-table">
+            <thead>
+              <tr>
+                <th style="width: 16%;">Loại</th>
+                <th style="width: 30%;">Mức giữ</th>
+                <th style="width: 26%;">Kiểu</th>
+                <th style="width: 28%;">Giữ tối đa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cat-label">Đề</td>
+                <td><input type="number" id="retainVal_de" value="0" min="0" step="any"></td>
+                <td>
+                  <select id="retainType_de">
+                    <option value="money">Tiền</option>
+                    <option value="percentage">%</option>
+                  </select>
+                </td>
+                <td><input type="number" id="retainMax_de" placeholder="Max" min="0" step="any" title="Giới hạn giữ lại tối đa cho 1 con"></td>
+              </tr>
+              <tr>
+                <td class="cat-label">Lô</td>
+                <td><input type="number" id="retainVal_lo" value="0" min="0" step="any"></td>
+                <td>
+                  <select id="retainType_lo">
+                    <option value="money">Tiền</option>
+                    <option value="percentage">%</option>
+                  </select>
+                </td>
+                <td><input type="number" id="retainMax_lo" placeholder="Max" min="0" step="any" title="Giới hạn giữ lại tối đa cho 1 con"></td>
+              </tr>
+              <tr>
+                <td class="cat-label">Xiên</td>
+                <td><input type="number" id="retainVal_xien" value="0" min="0" step="any"></td>
+                <td>
+                  <select id="retainType_xien">
+                    <option value="money">Tiền</option>
+                    <option value="percentage">%</option>
+                  </select>
+                </td>
+                <td><input type="number" id="retainMax_xien" placeholder="Max" min="0" step="any" title="Giới hạn giữ lại tối đa cho 1 con"></td>
+              </tr>
+              <tr>
+                <td class="cat-label">Càng</td>
+                <td><input type="number" id="retainVal_bacang" value="0" min="0" step="any"></td>
+                <td>
+                  <select id="retainType_bacang">
+                    <option value="money">Tiền</option>
+                    <option value="percentage">%</option>
+                  </select>
+                </td>
+                <td><input type="number" id="retainMax_bacang" placeholder="Max" min="0" step="any" title="Giới hạn giữ lại tối đa cho 1 con"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="input-section">
+          <div class="section-label-bar">
+            <label for="twentySevenNumbers">27 giải:</label>
+            <button type="button" id="btnFetchMinhNgoc" class="btn-fetch-kqxs" title="Tự động lấy 27 giải KQXS Miền Bắc mới nhất từ Minh Ngọc">
+              🔄 Lấy KQ Minh Ngọc
+            </button>
+          </div>
+          <textarea id="twentySevenNumbers" rows="3" placeholder="Nhập 27 giải hoặc bấm 'Lấy KQ Minh Ngọc' để tải tự động"></textarea>
+          <div id="minhngocStatus" class="fetch-status"></div>
+        </div>
+
+        <div class="input-section">
+          <label for="shortcuts"><a href="nhaptat.html">Nhập tắt:</a></label>
+          <textarea id="shortcuts" rows="3"></textarea>
+        </div>
+
+        <div class="footer-links">
+          <a href="dothuong.html">copyright</a> © by <a href="ex.html">Angle</a>
+        </div>
+      </div>
+
+      <!-- Cột phải: 3 cột kết quả -->
+      <div class="right-section">
+        <div class="summary-badge-bar">
+          <!-- KHỐI 1: CƯỢC -->
+          <div class="summary-col-card">
+            <div class="summary-col-header">
+              <span>CƯỢC:</span>
+              <span id="sumBetTotal">0</span>
+            </div>
+            <div class="summary-col-body" id="sumBetDetail">
+              <div class="summary-line"><span>Đ:</span> <span>0/0</span></div>
+              <div class="summary-line"><span>L:</span> <span>0/0</span></div>
+              <div class="summary-line"><span>X:</span> <span>0/0</span></div>
+              <div class="summary-line"><span>C:</span> <span>0/0</span></div>
+            </div>
+          </div>
+
+          <!-- KHỐI 2: CHUYỂN -->
+          <div class="summary-col-card">
+            <div class="summary-col-header">
+              <span>CHUYỂN:</span>
+              <span id="sumTransferTotal">0</span>
+            </div>
+            <div class="summary-col-body" id="sumTransferDetail">
+              <div class="summary-line"><span>Đ:</span> <span>0/0</span></div>
+              <div class="summary-line"><span>L:</span> <span>0/0</span></div>
+              <div class="summary-line"><span>X:</span> <span>0/0</span></div>
+              <div class="summary-line"><span>C:</span> <span>0/0</span></div>
+            </div>
+          </div>
+
+          <!-- KHỐI 3: GIỮ LẠI -->
+          <div class="summary-col-card">
+            <div class="summary-col-header">
+              <span>GIỮ LẠI:</span>
+              <span id="sumRetainTotal">0</span>
+            </div>
+            <div class="summary-col-body" id="sumRetainDetail">
+              <div class="summary-line"><span>Đ:</span> <span>0/0</span></div>
+              <div class="summary-line"><span>L:</span> <span>0/0</span></div>
+              <div class="summary-line"><span>X:</span> <span>0/0</span></div>
+              <div class="summary-line"><span>C:</span> <span>0/0</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-grid">
+          <!-- Cột 1: Kết quả -->
+          <div class="result-section">
+            <div class="result-header">
+              <span>Kết quả:</span>
+              <span id="totalSum" class="red-text">0</span>
+            </div>
+            <div class="result-body" id="result"></div>
+          </div>
+
+          <!-- Cột 2: Chuyển -->
+          <div class="result-section">
+            <div class="result-header">
+              <span>Chuyển:</span>
+              <span id="modifiedTotalSum" class="red-text">0</span>
+            </div>
+            <div class="result-body">
+              <div id="modifiedResult"></div>
+              <div id="totalSum3"></div>
+            </div>
+          </div>
+
+          <!-- Cột 3: Chi tiết -->
+          <div class="result-section">
+            <div class="result-header">
+              <span>Chi tiết:</span>
+            </div>
+            <div class="result-body">
+              <ul id="inputList" class="details-list"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KHU VỰC 2: BẢNG TÍNH TIỀN CƯỢC & THANH TOÁN (CHÍNH XÁC, KHÔNG LÀM TRÒN) -->
+    <div class="calc-container">
+      <div class="calc-layout">
+        <!-- Bảng tính cược -->
+        <div class="calc-table-wrap">
+          <table class="pro-table">
+            <thead>
+              <tr>
+                <th style="width: 14%;">Loại</th>
+                <th style="width: 18%;">Cược</th>
+                <th style="width: 25%;">Tiền</th>
+                <th style="width: 25%;">Tiền Trúng</th>
+                <th style="width: 18%;">Trúng</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cell-label">Đề</td>
+                <td><input type="text" class="table-input" id="input_de" value="0" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="calculateResultRow('de')" /></td>
+                <td class="col-num"><span id="result_de">0</span></td>
+                <td class="col-num"><span id="bonusResult_de">0</span></td>
+                <td><input type="text" class="table-input" id="bonus_de" value="0" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="calculateResultRow('de')" /></td>
+              </tr>
+              <tr>
+                <td class="cell-label">Lô</td>
+                <td><input type="text" class="table-input" id="input_lo" value="0" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="calculateResultRow('lo')" /></td>
+                <td class="col-num"><span id="result_lo">0</span></td>
+                <td class="col-num"><span id="bonusResult_lo">0</span></td>
+                <td><input type="text" class="table-input" id="bonus_lo" value="0" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="calculateResultRow('lo')" /></td>
+              </tr>
+              <tr>
+                <td class="cell-label">Xiên 2</td>
+                <td><input type="text" class="table-input" id="input_x2" value="0" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="calculateResultRow('x2')" /></td>
+                <td class="col-num"><span id="result_x2">0</span></td>
+                <td class="col-num"><span id="bonusResult_x2">0</span></td>
+                <td><input type="text" class="table-input" id="bonus_x2" value="0" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="calculateResultRow('x2')" /></td>
+              </tr>
+              <tr>
+                <td class="cell-label">Xiên 3</td>
+                <td><input type="text" class="table-input" id="input_x3" value="0" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="calculateResultRow('x3')" /></td>
+                <td class="col-num"><span id="result_x3">0</span></td>
+                <td class="col-num"><span id="bonusResult_x3">0</span></td>
+                <td><input type="text" class="table-input" id="bonus_x3" value="0" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="calculateResultRow('x3')" /></td>
+              </tr>
+              <tr>
+                <td class="cell-label">Xiên 4</td>
+                <td><input type="text" class="table-input" id="input_x4" value="0" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="calculateResultRow('x4')" /></td>
+                <td class="col-num"><span id="result_x4">0</span></td>
+                <td class="col-num"><span id="bonusResult_x4">0</span></td>
+                <td><input type="text" class="table-input" id="bonus_x4" value="0" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="calculateResultRow('x4')" /></td>
+              </tr>
+              <tr>
+                <td class="cell-label">3 Càng</td>
+                <td><input type="text" class="table-input" id="input_c3" value="0" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="calculateResultRow('c3')" /></td>
+                <td class="col-num"><span id="result_c3">0</span></td>
+                <td class="col-num"><span id="bonusResult_c3">0</span></td>
+                <td style="padding: 2px 4px;">
+                  <div style="display: flex; align-items: center; justify-content: center; gap: 3px;">
+                    <input type="text" class="table-input" id="bonus_c3" value="0" placeholder="Chính" title="Số tiền gốc trúng Chính diện" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="calculateResultRow('c3')" />
+                    <span id="bonus_c3apma_wrap" style="display: none; align-items: center; gap: 3px;">
+                      <span style="color: #4b5563; font-weight: bold; font-size: 11px; white-space: nowrap;">/ Áp:</span>
+                      <input type="text" class="table-input" style="width: 44px; font-size: 12px; padding: 0 2px;" id="bonus_c3apma" value="0" placeholder="Áp má" title="Số tiền gốc trúng Áp má" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="calculateResultRow('c3')" />
+                    </span>
+                  </div>
+                </td>
+              </tr>
+              <tr class="row-summary">
+                <td class="cell-label">Thầu</td>
+                <td></td>
+                <td class="col-num"><span id="total">0</span></td>
+                <td class="col-num"><span id="bonusTotal">0</span></td>
+                <td></td>
+              </tr>
+              <tr class="row-final">
+                <td class="cell-label">Tổng thanh toán</td>
+                <td></td>
+                <td colspan="2" class="col-center"><span id="finalResult">0</span></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Khung thiết lập giá & thưởng (Đề, Lô, Xiên 2, 3, 4, 3 Càng Chính diện, Áp má) -->
+        <div class="rate-card">
+          <div class="rate-card-header">Cài đặt giá & thưởng</div>
+          <div class="rate-card-body">
+            <div class="rate-table-header">
+              <span class="th-label">Loại</span>
+              <span class="th-val">Giá</span>
+              <span class="th-val">Thưởng</span>
+            </div>
+            <div class="rate-row">
+              <label for="price_de">Đề:</label>
+              <input type="text" class="rate-input" id="price_de" value="88" placeholder="Giá %" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="onPriceConfigChange('de')" />
+              <input type="text" class="rate-input" id="payout_de" value="80" placeholder="Thưởng" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="onPriceConfigChange('de')" />
+            </div>
+            <div class="rate-row">
+              <label for="price_lo">Lô:</label>
+              <input type="text" class="rate-input" id="price_lo" value="21.9" placeholder="Giá vốn" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="onPriceConfigChange('lo')" />
+              <input type="text" class="rate-input" id="payout_lo" value="80" placeholder="Thưởng" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="onPriceConfigChange('lo')" />
+            </div>
+            <div class="rate-row">
+              <label for="price_x2">Xiên 2:</label>
+              <input type="text" class="rate-input" id="price_x2" value="65" placeholder="Giá %" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="onPriceConfigChange('x2')" />
+              <input type="text" class="rate-input" id="payout_x2" value="11" placeholder="Thưởng" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="onPriceConfigChange('x2')" />
+            </div>
+            <div class="rate-row">
+              <label for="price_x3">Xiên 3:</label>
+              <input type="text" class="rate-input" id="price_x3" value="65" placeholder="Giá %" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="onPriceConfigChange('x3')" />
+              <input type="text" class="rate-input" id="payout_x3" value="45" placeholder="Thưởng" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="onPriceConfigChange('x3')" />
+            </div>
+            <div class="rate-row">
+              <label for="price_x4">Xiên 4:</label>
+              <input type="text" class="rate-input" id="price_x4" value="65" placeholder="Giá %" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="onPriceConfigChange('x4')" />
+              <input type="text" class="rate-input" id="payout_x4" value="140" placeholder="Thưởng" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="onPriceConfigChange('x4')" />
+            </div>
+            <div class="rate-row">
+              <label for="price_c3">3 Càng:</label>
+              <input type="text" class="rate-input" id="price_c3" value="75" placeholder="Giá %" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="onPriceConfigChange('c3')" />
+              <input type="text" class="rate-input" id="payout_c3" value="400" placeholder="Thưởng chính" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="onPriceConfigChange('c3')" />
+            </div>
+            <div class="rate-row">
+              <label for="payout_c3apma">3C (Áp má):</label>
+              <span style="width: 82px; text-align: center; font-size: 11px; color: #6b7280; font-style: italic;">(dùng giá 3C)</span>
+              <input type="text" class="rate-input" id="payout_c3apma" value="5" placeholder="Thưởng áp má" onfocus="clearDefaultValue(this)" onblur="restoreDefaultValue(this)" oninput="onPriceConfigChange('c3')" />
+            </div>
+          </div>
+          <div class="rate-card-footer">
+            <button type="button" id="copyTableImageBtn" class="btn-copy-image">📸 Copy ảnh gửi Zalo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Định dạng số chuẩn xác, KHÔNG LÀM TRÒN THÀNH SỐ NGUYÊN, giữ phần thập phân chính xác
+    function formatExact(num) {
+      if (isNaN(num) || num === null || num === undefined) return "0";
+      // Khắc phục sai số dấu phẩy động (float precision) đến 4 chữ số thập phân
+      const cleanNum = Math.round((num + Number.EPSILON) * 10000) / 10000;
+      return cleanNum.toString();
+    }
+
+    // Biến lưu trạng thái cược hiện tại để cập nhật số tiền -/+ khi đổi giá
+    window.currentBetState = {
+      betSums: { de: 0, lo: 0, x2: 0, x3: 0, x4: 0, c3: 0, xien: 0, bacang: 0 },
+      winAmounts: { de: 0, lo: 0, x2: 0, x3: 0, x4: 0, c3: 0, c3_chinh: 0, c3_apma: 0, xien: 0, bacang: 0 },
+      transferSums: { de: 0, lo: 0, x2: 0, x3: 0, x4: 0, c3: 0, xien: 0, bacang: 0 },
+      transferWinAmounts: { de: 0, lo: 0, x2: 0, x3: 0, x4: 0, c3: 0, c3_chinh: 0, c3_apma: 0, xien: 0, bacang: 0 },
+      retainSums: { de: 0, lo: 0, x2: 0, x3: 0, x4: 0, c3: 0, xien: 0, bacang: 0 },
+      retainWinAmounts: { de: 0, lo: 0, x2: 0, x3: 0, x4: 0, c3: 0, c3_chinh: 0, c3_apma: 0, xien: 0, bacang: 0 }
+    };
+
+    function getPriceConfig() {
+      return {
+        de: {
+          price: parseFloat(document.getElementById("price_de")?.value) || 0,
+          payout: parseFloat(document.getElementById("payout_de")?.value) || 0,
+          isPoint: false
+        },
+        lo: {
+          price: parseFloat(document.getElementById("price_lo")?.value) || 0,
+          payout: parseFloat(document.getElementById("payout_lo")?.value) || 0,
+          isPoint: true
+        },
+        x2: {
+          price: parseFloat(document.getElementById("price_x2")?.value) || 0,
+          payout: parseFloat(document.getElementById("payout_x2")?.value) || 0,
+          isPoint: false
+        },
+        x3: {
+          price: parseFloat(document.getElementById("price_x3")?.value) || 0,
+          payout: parseFloat(document.getElementById("payout_x3")?.value) || 0,
+          isPoint: false
+        },
+        x4: {
+          price: parseFloat(document.getElementById("price_x4")?.value) || 0,
+          payout: parseFloat(document.getElementById("payout_x4")?.value) || 0,
+          isPoint: false
+        },
+        c3: {
+          price: parseFloat(document.getElementById("price_c3")?.value) || 0,
+          payout: parseFloat(document.getElementById("payout_c3")?.value) || 0,
+          payout_apma: parseFloat(document.getElementById("payout_c3apma")?.value) || 0,
+          isPoint: false
+        }
+      };
+    }
+
+    function calcCategoryNet(cuocObj, winObj) {
+      if (!cuocObj || !winObj) return 0;
+      const cfg = getPriceConfig();
+      const keys = ['de', 'lo', 'x2', 'x3', 'x4', 'c3'];
+      let totalXac = 0;
+      let totalTrung = 0;
+
+      keys.forEach(k => {
+        const cVal = (cuocObj[k] || 0);
+        const itemCfg = cfg[k];
+        if (!itemCfg) return;
+
+        if (itemCfg.isPoint) {
+          totalXac += cVal * itemCfg.price;
+        } else {
+          totalXac += (cVal * itemCfg.price) / 100;
+        }
+
+        if (k === 'c3') {
+          const chinhVal = (winObj.c3_chinh !== undefined) ? winObj.c3_chinh : 0;
+          const apmaVal = (winObj.c3_apma !== undefined) ? winObj.c3_apma : 0;
+          if (chinhVal > 0 || apmaVal > 0) {
+            totalTrung += (chinhVal * itemCfg.payout) + (apmaVal * itemCfg.payout_apma);
+          } else {
+            const wVal = (winObj[k] || 0);
+            totalTrung += wVal * itemCfg.payout;
+          }
+        } else {
+          const wVal = (winObj[k] || 0);
+          totalTrung += wVal * itemCfg.payout;
+        }
+      });
+
+      return totalXac - totalTrung;
+    }
+
+    // Hàm làm tròn chuẩn theo nguyên tắc số thập phân (thành số nguyên: >= 0.5 làm tròn lên, < 0.5 làm tròn xuống)
+    function roundStandard(val) {
+      if (isNaN(val) || val === null || val === undefined) return 0;
+      const sign = val < 0 ? -1 : 1;
+      return sign * Math.round(Math.abs(val));
+    }
+
+    function formatNetBalance(val) {
+      const rounded = roundStandard(val);
+      if (rounded > 0) {
+        return `<span style="color: #059669; font-weight: 700;">+${rounded.toString()}</span>`;
+      } else if (rounded < 0) {
+        return `<span class="win-num">${rounded.toString()}</span>`;
+      } else {
+        return `<span>0</span>`;
+      }
+    }
+
+    function updateSummaryCardHeaders() {
+      if (!window.currentBetState) return;
+      const { betSums, winAmounts, transferSums, transferWinAmounts, retainSums, retainWinAmounts } = window.currentBetState;
+
+      const netBet = calcCategoryNet(betSums, winAmounts);
+      const netTransfer = calcCategoryNet(transferSums, transferWinAmounts);
+      const netRetain = calcCategoryNet(retainSums, retainWinAmounts);
+
+      const sumBetTotalEl = document.getElementById("sumBetTotal");
+      const sumTransferTotalEl = document.getElementById("sumTransferTotal");
+      const sumRetainTotalEl = document.getElementById("sumRetainTotal");
+
+      if (sumBetTotalEl) sumBetTotalEl.innerHTML = formatNetBalance(netBet);
+      if (sumTransferTotalEl) sumTransferTotalEl.innerHTML = formatNetBalance(netTransfer);
+      if (sumRetainTotalEl) sumRetainTotalEl.innerHTML = formatNetBalance(netRetain);
+    }
+
+    // Hàm ẩn/hiện ô Áp má của 3 Càng: chỉ hiện khi có tiền trúng áp má > 0
+    function updateBonusC3Visibility() {
+      const apmaVal = parseFloat(document.getElementById("bonus_c3apma")?.value) || 0;
+      const wrap = document.getElementById("bonus_c3apma_wrap");
+      const inC3 = document.getElementById("bonus_c3");
+      if (wrap && inC3) {
+        if (apmaVal > 0) {
+          wrap.style.display = "inline-flex";
+          inC3.style.width = "44px";
+        } else {
+          wrap.style.display = "none";
+          inC3.style.width = "80px";
+        }
+      }
+    }
+
+    // Khởi tạo các giá trị mặc định cho bảng tính
+    const BET_ROW_KEYS = ['de', 'lo', 'x2', 'x3', 'x4', 'c3'];
+    function initializeDefaultValues() {
+      BET_ROW_KEYS.forEach(k => {
+        const rEl = document.getElementById(`result_${k}`);
+        const bEl = document.getElementById(`bonusResult_${k}`);
+        if (rEl) rEl.textContent = "0";
+        if (bEl) bEl.textContent = "0";
+      });
+      const b3ApmaEl = document.getElementById('bonus_c3apma');
+      if (b3ApmaEl) b3ApmaEl.value = "0";
+      const tEl = document.getElementById('total');
+      const btEl = document.getElementById('bonusTotal');
+      const frEl = document.getElementById('finalResult');
+      if (tEl) tEl.textContent = "0";
+      if (btEl) btEl.textContent = "0";
+      if (frEl) frEl.textContent = "0";
+      updateBonusC3Visibility();
+      updateSummaryCardHeaders();
+    }
+
+    initializeDefaultValues();
+
+    // Lưu và nạp Shortcuts
+    function saveShortcuts() {
+      var shortcutsInput = document.getElementById("shortcuts").value;
+      localStorage.setItem("shortcutsData", shortcutsInput);
+    }
+
+    function convertInputFormat(input) {
+      return input.replace(/,/g, '.');
+    }
+
+    function loadShortcuts() {
+      var shortcutsData = localStorage.getItem("shortcutsData");
+      if (shortcutsData) {
+        document.getElementById("shortcuts").value = shortcutsData;
+      }
+    }
+
+    loadShortcuts();
+
+    var shortcutsTextarea = document.getElementById("shortcuts");
+    shortcutsTextarea.addEventListener("input", saveShortcuts);
+
+    // =========================================================================
+    // BỘ QUY TẮC PARSER ĐỒNG BỘ 1:1 TỪ BOT TELEGRAM (bet_parser.py) CHO WEB
+    // MỞ RỘNG: Tách chữ x khi khách gõ sát (kép lệchx5, keplechx5, và từ khóa trong khung nhập tắt)
+    // =========================================================================
+
+    const DEFAULT_SHORTHANDS = {
+      "k": "00.11.22.33.44.55.66.77.88.99",
+      "kep": "00.11.22.33.44.55.66.77.88.99",
+      "lip": "00.11.22.33.44.55.66.77.88.99",
+      "kl": "050.161.272.383.494",
+      "apkep": "010.121.232.343.454.565.676.787.898",
+      "kepam": "070.141.292.363.585",
+      "t0": "00.19.28.37.46.55.64.73.82.91",
+      "t1": "01.29.38.47.56.65.74.83.92.10",
+      "t2": "02.11.20.39.48.57.66.75.84.93",
+      "t3": "03.121.30.49.58.676.85.94",
+      "t4": "04.13.22.31.40.59.68.77.86.95",
+      "t5": "05.14.232.41.50.69.787.96",
+      "t6": "06.15.24.33.42.51.60.79.88.97",
+      "t7": "07.16.25.343.52.61.70.89.98",
+      "t8": "08.17.26.35.44.53.62.71.80.99",
+      "t9": "09.18.27.36.454.63.72.81.90",
+      "cham0": "00.010.020.030.040.050.060.070.080.090",
+      "cham1": "101.11.121.131.141.151.161.171.181.191",
+      "cham2": "202.212.22.232.242.252.262.272.282.292",
+      "cham3": "303.313.323.33.343.353.363.373.383.393",
+      "cham4": "404.414.424.434.44.454.464.474.484.494",
+      "cham5": "505.515.525.535.545.55.565.575.585.595",
+      "cham6": "606.616.626.636.646.656.66.676.686.696",
+      "cham7": "707.717.727.737.747.757.767.77.787.797",
+      "cham8": "808.818.828.838.848.858.868.878.88.898",
+      "cham9": "909.919.929.939.949.959.969.979.989.99",
+      "cc": "00.22.44.66.88.02.20.04.40.06.60.08.80.242.262.282.464.484.686",
+      "cl": "01.03.05.07.09.21.23.25.27.29.41.43.45.47.49.61.63.65.67.69.81.83.85.87.89",
+      "lc": "10.12.14.16.18.30.32.34.36.38.50.52.54.56.58.70.72.74.76.78.90.92.94.96.98",
+      "ll": "11.33.55.77.99.131.151.171.191.353.373.393.575.595.797",
+      "d0": "00.01.02.03.04.05.06.07.08.09",
+      "d1": "10.11.12.13.14.15.16.17.18.19",
+      "d2": "20.21.22.23.24.25.26.27.28.29",
+      "d3": "30.31.32.33.34.35.36.37.38.39",
+      "d4": "40.41.42.43.44.45.46.47.48.49",
+      "d5": "50.51.52.53.54.55.56.57.58.59",
+      "d6": "60.61.62.63.64.65.66.67.68.69",
+      "d7": "70.71.72.73.74.75.76.77.78.79",
+      "d8": "80.81.82.83.84.85.86.87.88.89",
+      "d9": "90.91.92.93.94.95.96.97.98.99",
+      "d'0": "00.10.20.30.40.50.60.70.80.90",
+      "d'1": "01.11.21.31.41.51.61.71.81.91",
+      "d'2": "02.12.22.32.42.52.62.72.82.92",
+      "d'3": "03.13.23.33.43.53.63.73.83.93",
+      "d'4": "04.14.24.34.44.54.64.74.84.94",
+      "d'5": "05.15.25.35.45.55.65.75.85.95",
+      "d'6": "06.16.26.36.46.56.66.76.86.96",
+      "d'7": "07.17.27.37.47.57.67.77.87.97",
+      "d'8": "08.18.28.38.48.58.68.78.88.98",
+      "d'9": "09.19.29.39.49.59.69.79.89.99",
+      "h05": "050.55.00", "h50": "050.55.00", "h55": "050.55.00", "h00": "050.55.00",
+      "h16": "161.66.11", "h61": "161.66.11", "h66": "161.66.11", "h11": "161.66.11",
+      "h27": "272.22.77", "h72": "272.22.77", "h22": "272.22.77", "h77": "272.22.77",
+      "h38": "383.33.88", "h83": "383.33.88", "h33": "383.33.88", "h88": "383.33.88",
+      "h49": "494.44.99", "h94": "494.44.99", "h44": "494.44.99", "h99": "494.44.99",
+      "h01": "01.10.06.60.51.15.56.65", "h10": "01.10.06.60.51.15.56.65", "h06": "01.10.06.60.51.15.56.65", "h60": "01.10.06.60.51.15.56.65",
+      "h15": "01.10.06.60.51.15.56.65", "h51": "01.10.06.60.51.15.56.65", "h56": "01.10.06.60.51.15.56.65", "h65": "01.10.06.60.51.15.56.65",
+      "h02": "02.20.07.70.52.25.57.75", "h20": "02.20.07.70.52.25.57.75", "h07": "02.20.07.70.52.25.57.75", "h70": "02.20.07.70.52.25.57.75",
+      "h52": "02.20.07.70.52.25.57.75", "h25": "02.20.07.70.52.25.57.75", "h57": "02.20.07.70.52.25.57.75", "h75": "02.20.07.70.52.25.57.75",
+      "h03": "03.30.08.80.53.35.58.85", "h30": "03.30.08.80.53.35.58.85", "h08": "03.30.08.80.53.35.58.85", "h80": "03.30.08.80.53.35.58.85",
+      "h53": "03.30.08.80.53.35.58.85", "h35": "03.30.08.80.53.35.58.85", "h58": "03.30.08.80.53.35.58.85", "h85": "03.30.08.80.53.35.58.85",
+      "h04": "04.40.09.90.54.45.59.95", "h40": "04.40.09.90.54.45.59.95", "h09": "04.40.09.90.54.45.59.95", "h90": "04.40.09.90.54.45.59.95",
+      "h54": "04.40.09.90.54.45.59.95", "h45": "04.40.09.90.54.45.59.95", "h59": "04.40.09.90.54.45.59.95", "h95": "04.40.09.90.54.45.59.95",
+      "h12": "121.171.626.676", "h21": "121.171.626.676", "h17": "121.171.626.676", "h71": "121.171.626.676",
+      "h62": "121.171.626.676", "h26": "121.171.626.676", "h67": "121.171.626.676", "h76": "121.171.626.676",
+      "h13": "131.181.636.686", "h31": "131.181.636.686", "h18": "131.181.636.686", "h81": "131.181.636.686",
+      "h63": "131.181.636.686", "h36": "131.181.636.686", "h68": "131.181.636.686", "h86": "131.181.636.686",
+      "h14": "141.191.646.696", "h41": "141.191.646.696", "h19": "141.191.646.696", "h91": "141.191.646.696",
+      "h64": "141.191.646.696", "h46": "141.191.646.696", "h69": "141.191.646.696", "h96": "141.191.646.696",
+      "h23": "232.282.737.787", "h32": "232.282.737.787", "h28": "232.282.737.787", "h82": "232.282.737.787",
+      "h73": "232.282.737.787", "h37": "232.282.737.787", "h78": "232.282.737.787", "h87": "232.282.737.787",
+      "h24": "242.292.747.797", "h42": "242.292.747.797", "h29": "242.292.747.797", "h92": "242.292.747.797",
+      "h74": "242.292.747.797", "h47": "242.292.747.797", "h79": "242.292.747.797", "h97": "242.292.747.797",
+      "h34": "343.393.848.898", "h43": "343.393.848.898", "h39": "343.393.848.898", "h93": "343.393.848.898",
+      "h84": "343.393.848.898", "h48": "343.393.848.898", "h89": "343.393.848.898", "h98": "343.393.848.898",
+      "tongto": "05.06.07.08.09.14.15.16.17.18.23.24.25.26.27.32.33.34.35.36.41.42.43.44.45.50.51.52.53.54.60.61.62.63.69.70.71.72.78.79.80.81.87.88.89.90.96.97.98.99",
+      "tongbe": "00.01.02.03.04.10.11.12.13.19.20.21.22.28.29.30.31.37.38.39.40.46.47.48.49.55.56.57.58.59.64.65.66.67.68.73.74.75.76.77.82.83.84.85.86.91.92.93.94.95",
+      "tongle": "01.03.05.07.09.10.12.14.16.18.21.23.25.27.29.30.32.34.36.38.41.43.45.47.49.50.52.54.56.58.61.63.65.67.69.70.72.74.76.78.81.83.85.87.89.90.92.94.96.98",
+      "tongchan": "00.02.04.06.08.11.13.15.17.19.20.22.24.26.28.31.33.35.37.39.40.42.44.46.48.51.53.55.57.59.60.62.64.66.68.71.73.75.77.79.80.82.84.86.88.91.93.95.97.99",
+      "toto": "55.66.77.88.99.565.575.585.595.676.686.696.787.797.898",
+      "tobe": "90.91.92.93.94.80.81.82.83.84.70.71.72.73.74.60.61.62.63.64.50.51.52.53.54",
+      "beto": "05.06.07.08.09.15.16.17.18.19.25.26.27.28.29.35.36.37.38.39.45.46.47.48.49",
+      "bebe": "00.11.22.33.44.01.10.02.20.03.30.04.40.121.131.141.232.242.343",
+      "dauto": "50.51.52.53.54.55.56.57.58.59.60.61.62.63.64.65.66.67.68.69.70.71.72.73.74.75.76.77.78.79.80.81.82.83.84.85.86.87.88.89.90.91.92.93.94.95.96.97.98.99",
+      "daube": "00.01.02.03.04.05.06.07.08.09.10.11.12.13.14.15.16.17.18.19.20.21.22.23.24.25.26.27.28.29.30.31.32.33.34.35.36.37.38.39.40.41.42.43.44.45.46.47.48.49",
+      "daule": "10.11.12.13.14.15.16.17.18.19.30.31.32.33.34.35.36.37.38.39.50.51.52.53.54.55.56.57.58.59.70.71.72.73.74.75.76.77.78.79.90.91.92.93.94.95.96.97.98.99",
+      "dauchan": "00.01.02.03.04.05.06.07.08.09.20.21.22.23.24.25.26.27.28.29.40.41.42.43.44.45.46.47.48.49.60.61.62.63.64.65.66.67.68.69.80.81.82.83.84.85.86.87.88.89",
+      "ditchan": "00.02.04.06.08.10.12.14.16.18.20.22.24.26.28.30.32.34.36.38.40.42.44.46.48.50.52.54.56.58.60.62.64.66.68.70.72.74.76.78.80.82.84.86.88.90.92.94.96.98",
+      "ditle": "01.03.05.07.09.11.13.15.17.19.21.23.25.27.29.31.33.35.37.39.41.43.45.47.49.51.53.55.57.59.61.63.65.67.69.71.73.75.77.79.81.83.85.87.89.91.93.95.97.99",
+      "ditbe": "00.01.02.03.04.10.11.12.13.14.20.21.22.23.24.30.31.32.33.34.40.41.42.43.44.50.51.52.53.54.60.61.62.63.64.70.71.72.73.74.80.81.82.83.84.90.91.92.93.94",
+      "ditto": "05.06.07.08.09.15.16.17.18.19.25.26.27.28.29.35.36.37.38.39.45.46.47.48.49.55.56.57.58.59.65.66.67.68.69.75.76.77.78.79.85.86.87.88.89.95.96.97.98.99"
+    };
+
+    function stripAccents(s) {
+      if (!s) return "";
+      let str = s.replace(/đ/g, "d").replace(/Đ/g, "D");
+      str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      return str;
+    }
+
+    // Nạp các từ viết tắt tùy chỉnh trong khung "Nhập tắt" (#shortcuts)
+    function getCustomShortcuts() {
+      const shortcutsEl = document.getElementById("shortcuts");
+      const shortcutsInput = shortcutsEl ? shortcutsEl.value : "";
+      const custom = {};
+      if (!shortcutsInput.trim()) return custom;
+
+      const lines = shortcutsInput.split("\n");
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line || line.startsWith("#") || line.indexOf("=") === -1) continue;
+        const eqIdx = line.indexOf("=");
+        const kPart = line.substring(0, eqIdx).trim().toLowerCase();
+        const v = line.substring(eqIdx + 1).trim();
+        if (kPart && v) {
+          const keys = kPart.split(",");
+          for (let j = 0; j < keys.length; j++) {
+            const rawK = keys[j].trim().replace(/[’‘ʼ＇`]/g, "'");
+            if (rawK) {
+              custom[rawK] = v;
+              const unacc = stripAccents(rawK);
+              if (unacc) {
+                custom[unacc] = v;
+              }
+            }
+          }
+        }
+      }
+      return custom;
+    }
+
+    // MỞ RỘNG ĐẶC BIỆT: Tách chữ x khi khách gõ sát (kép lệchx5, keplechx5, và tất cả từ khóa trong khung nhập tắt)
+    function separateTightX(line, customShortcuts) {
+      if (!line) return "";
+      let res = line;
+
+      // Danh sách từ khóa hệ thống cần tách sát chữ x
+      const baseKeywords = [
+        "kép lệch", "kep lech", "keplech", "kep lec", "keplec", "kl",
+        "kép bằng", "kep bang", "kepbang", "kép", "kep", "lip", "k",
+        "sát kép", "sat kep", "satkep", "áp kép", "ap kep", "apkep", "apk",
+        "kép âm", "kep am", "kepam", "kepa",
+        "chẵn chẵn", "chan chan", "chanchan", "chẵn lẻ", "chan le", "chanle",
+        "lẻ chẵn", "le chan", "lechan", "lẻ lẻ", "le le", "lele",
+        "đầu to", "dau to", "dauto", "đầu bé", "dau be", "daube",
+        "đầu chẵn", "dau chan", "dauchan", "đầu lẻ", "dau le", "daule",
+        "đít to", "đuôi to", "dit to", "duoi to", "ditto",
+        "đít bé", "đuôi bé", "dit be", "duoi be", "ditbe",
+        "đít chẵn", "đuôi chẵn", "dit chan", "duoi chan", "ditchan",
+        "đít lẻ", "đuôi lẻ", "dit le", "duoi le", "ditle",
+        "tổng to", "tong to", "tongto", "tổng bé", "tong be", "tongbe",
+        "tổng chẵn", "tong chan", "tongchan", "tổng lẻ", "tong le", "tongle",
+        "to to", "toto", "to bé", "to be", "tobe", "bé to", "be to", "beto", "bé bé", "be be", "bebe"
+      ];
+
+      // Thêm các từ khóa từ khung nhập tắt (customShortcuts)
+      const customKeys = Object.keys(customShortcuts || {});
+      const allKeysSet = new Set([...baseKeywords, ...customKeys]);
+      const sortedKeys = Array.from(allKeysSet).filter(k => k && k.length > 0).sort((a, b) => b.length - a.length);
+
+      for (let i = 0; i < sortedKeys.length; i++) {
+        const k = sortedKeys[i];
+        const escaped = k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+');
+        // Khớp: [ranh giới](từ_khóa)x[số tiền]
+        const tightRegex = new RegExp('(^|[\\s,;.:\\-])(' + escaped + ')x(?=\\d)', 'gi');
+        res = res.replace(tightRegex, '$1$2 x');
+      }
+
+      // Mở rộng các tiền tố chữ + số dính liền x (ví dụ: dau0x5, cham1x10, t0x20, bo01x50, he02x10)
+      res = res.replace(/(^|[\s,;.:\-])(dau|đầu|dit|đít|duoi|đuôi|cham|chạm|c|tong|tổng|t|d|bo|bộ|b|he|hệ|h)(\d{1,2})x(?=\d)/gi, '$1$2$3 x');
+
+      return res;
+    }
+
+    function normalizeShorthandToken(token, customShortcuts) {
+      let t = stripAccents(token.trim().toLowerCase()).replace(/[’‘ʼ＇`]/g, "'");
+      if (customShortcuts && customShortcuts[t]) return t;
+      if (DEFAULT_SHORTHANDS[t]) return t;
+
+      const dauditMatch = t.match(/^daudit(\d)$/);
+      if (dauditMatch) {
+        const d = dauditMatch[1];
+        const dauKey = 'd' + d;
+        const ditKey = "d'" + d;
+        const dict = (customShortcuts && (customShortcuts[dauKey] || customShortcuts[ditKey])) ? customShortcuts : DEFAULT_SHORTHANDS;
+        if (dict[dauKey] && dict[ditKey]) {
+          return dict[dauKey] + '.' + dict[ditKey];
+        }
+      }
+
+      const cMatch = t.match(/^c(\d)$/);
+      if (cMatch) return 'cham' + cMatch[1];
+      const dauMatch = t.match(/^dau(\d)$/);
+      if (dauMatch) return 'd' + dauMatch[1];
+      const ditMatch = t.match(/^(?:dit|duoi)(\d)$/);
+      if (ditMatch) return "d'" + ditMatch[1];
+
+      const heBoMatch = t.match(/^(?:he|bo|b|h)(\d{1,2})$/);
+      if (heBoMatch) {
+        let num = heBoMatch[1];
+        if (num.length === 1) num = '0' + num;
+        return 'h' + num;
+      }
+
+      const aliases = {
+        'chanle': 'cl', 'lechan': 'lc', 'chanchan': 'cc', 'lele': 'll',
+        'dc': 'dauchan', 'dl': 'daule', 'dt': 'dauto', 'dto': 'dauto', 'db': 'daube', 'dbe': 'daube', 'dle': 'daule',
+        'tb': 'tobe', 'tt': 'toto', 'bt': 'beto', 'bb': 'bebe',
+        'tc': 'tongchan', 'tl': 'tongle', 'tle': 'tongle', 'tto': 'tongto', 'tbe': 'tongbe',
+        'chan': 'ditchan', 'le': 'ditle', 'duoichan': 'ditchan', 'duoile': 'ditle', 'duoibe': 'ditbe', 'duoito': 'ditto',
+        "d'c": 'ditchan', "d'l": 'ditle',
+        'keplech': 'kl', 'keplec': 'kl', 'apk': 'apkep', 'satkep': 'apkep', 'kepa': 'kepam',
+        'lip': 'k', 'kep': 'k'
+      };
+      return aliases[t] || t;
+    }
+
+    function resolveShorthands(numbersString, customShortcuts, depth = 0) {
+      let s = numbersString;
+
+      // 1. Mở rộng các từ khóa có khoảng trắng trong customShortcuts trước
+      const mwKeys = Object.keys(customShortcuts).filter(k => /\s/.test(k)).sort((a, b) => b.length - a.length);
+      for (let i = 0; i < mwKeys.length; i++) {
+        const k = mwKeys[i];
+        const escaped = k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+');
+        const mwRegex = new RegExp('(^|[.,\\-\\s])' + escaped + '(?=[.,\\-\\s]|$)', 'gi');
+        s = s.replace(mwRegex, (match, prefix) => prefix + customShortcuts[k]);
+      }
+
+      // 2. Mở rộng prefix nhiều số: dau0,8 -> dau0, dau8 hoặc c1,2,3 -> cham1, cham2, cham3
+      const combinedRegex = /(dau|dit|daudit|d'|d|he|bo|b|h|t|cham|c)([0-9]{1,2})((?:[.,\-\s]+[0-9]{1,2})+)/gi;
+      s = s.replace(combinedRegex, (match, rawPrefix, firstDigit, rest) => {
+        const pLower = rawPrefix.toLowerCase();
+        const normPrefix = pLower === 'c' ? 'cham' : ((pLower === 'b' || pLower === 'h') ? 'bo' : rawPrefix);
+        const digits = rest.split(/[^0-9]+/).filter(Boolean);
+        const expanded = [normPrefix + firstDigit, ...digits.map(d => normPrefix + d)];
+        return expanded.join(',');
+      });
+
+      // 3. Tách từng token và phân giải
+      const parts = s.split(/([.,\-\s]+)/);
+      const resolvedParts = parts.map(part => {
+        const trimmed = part.trim().toLowerCase().replace(/[’‘ʼ＇`]/g, "'");
+        if (!trimmed) return part;
+        if (customShortcuts[trimmed]) return customShortcuts[trimmed];
+        const unaccented = stripAccents(trimmed);
+        if (customShortcuts[unaccented]) return customShortcuts[unaccented];
+        if (DEFAULT_SHORTHANDS[trimmed]) return DEFAULT_SHORTHANDS[trimmed];
+        if (DEFAULT_SHORTHANDS[unaccented]) return DEFAULT_SHORTHANDS[unaccented];
+
+        const normalized = normalizeShorthandToken(part, customShortcuts);
+        if (customShortcuts[normalized]) return customShortcuts[normalized];
+        if (DEFAULT_SHORTHANDS[normalized]) return DEFAULT_SHORTHANDS[normalized];
+        if (/^[\d.]+$/.test(normalized)) return normalized;
+        return part;
+      });
+
+      const resStr = resolvedParts.join('');
+      // Hỗ trợ định nghĩa lồng nhau (nesting) tối đa 2 cấp
+      if (depth < 2 && resStr !== numbersString && /[a-zA-Z]/.test(resStr)) {
+        return resolveShorthands(resStr, customShortcuts, depth + 1);
+      }
+      return resStr;
+    }
+
+    function normalizeBetLine(line, customShortcuts) {
+      // Áp dụng trước bước tách chữ x dính sát từ khóa
+      let separated = separateTightX(line, customShortcuts);
+      let norm = stripAccents(separated.trim().toLowerCase());
+
+      norm = norm.replace(/^(xienquay|xq|xienq|quay|q|xquay|lo\s*xien|l\s*xien|de|lo|xien|x|x2|x3|x4|3cang|3c|d|l|c|bc|cang|3\s*cang|bo|he)[.:;\-]+\s*/gi, '$1 ');
+      norm = norm.replace(/([dđ])`/gi, '$1');
+      norm = norm.replace(/[’‘ʼ＇]/g, "'");
+      norm = norm.replace(/(\d)\s*,\s*(\d)/g, '$1.$2');
+      norm = norm.replace(/(\d)\s*\.\s*(\d)/g, '$1.$2');
+
+      const endB = '(?=[x=+*\\d\\s.,;:\\-]|$)';
+      norm = norm.replace(new RegExp('\\b(?:chan\\s+chan|chanchan)' + endB, 'g'), 'chanchan ');
+      norm = norm.replace(new RegExp('\\b(?:chan\\s+le|chanle)' + endB, 'g'), 'chanle ');
+      norm = norm.replace(new RegExp('\\b(?:le\\s+chan|lechan)' + endB, 'g'), 'lechan ');
+      norm = norm.replace(new RegExp('\\b(?:le\\s+le|lele)' + endB, 'g'), 'lele ');
+      norm = norm.replace(new RegExp('\\b(?:to\\s+to|toto)' + endB, 'g'), 'toto ');
+      norm = norm.replace(new RegExp('\\b(?:to\\s+be|tobe)' + endB, 'g'), 'tobe ');
+      norm = norm.replace(new RegExp('\\b(?:be\\s+to|beto)' + endB, 'g'), 'beto ');
+      norm = norm.replace(new RegExp('\\b(?:be\\s+be|bebe)' + endB, 'g'), 'bebe ');
+      norm = norm.replace(new RegExp('\\b(?:dau\\s+to|dauto)' + endB, 'g'), 'dauto ');
+      norm = norm.replace(new RegExp('\\b(?:dau\\s+be|daube)' + endB, 'g'), 'daube ');
+      norm = norm.replace(new RegExp('\\b(?:dau\\s+chan|dauchan)' + endB, 'g'), 'dauchan ');
+      norm = norm.replace(new RegExp('\\b(?:dau\\s+le|daule)' + endB, 'g'), 'daule ');
+      norm = norm.replace(new RegExp('\\b(?:dit\\s+to|duoi\\s+to|ditto)' + endB, 'g'), 'ditto ');
+      norm = norm.replace(new RegExp('\\b(?:dit\\s+be|duoi\\s+be|ditbe)' + endB, 'g'), 'ditbe ');
+      norm = norm.replace(new RegExp('\\b(?:dit\\s+chan|duoi\\s+chan|ditchan)' + endB, 'g'), 'ditchan ');
+      norm = norm.replace(new RegExp('\\b(?:dit\\s+le|duoi\\s+le|ditle)' + endB, 'g'), 'ditle ');
+      norm = norm.replace(new RegExp('\\b(?:tong\\s+to|tongto)' + endB, 'g'), 'tongto ');
+      norm = norm.replace(new RegExp('\\b(?:tong\\s+be|tongbe)' + endB, 'g'), 'tongbe ');
+      norm = norm.replace(new RegExp('\\b(?:tong\\s+chan|tongchan)' + endB, 'g'), 'tongchan ');
+      norm = norm.replace(new RegExp('\\b(?:tong\\s+le|tongle)' + endB, 'g'), 'tongle ');
+      norm = norm.replace(/\b(?:daudit|dau\s+dit|dau\s+duoi|dd|đđ)\s*(\d)(?![0-9])/g, 'daudit$1');
+      norm = norm.replace(new RegExp('\\b(?:sat\\s*kep|satkep|ap\\s*kep|apkep|apk)' + endB, 'g'), 'apkep ');
+      norm = norm.replace(new RegExp('\\b(?:kep\\s*am|kepam|kepa)' + endB, 'g'), 'kepam ');
+      norm = norm.replace(new RegExp('\\b(?:kep\\s*lech|keplech|kep\\s*lec|keplec|kl)' + endB, 'g'), 'kl ');
+      norm = norm.replace(new RegExp('\\b(?:kep\\s*bang|kepbang|lip|kep)' + endB, 'g'), 'k ');
+      norm = norm.replace(/\b(?:dau)\s*(\d)(?![0-9])/g, 'dau$1');
+      norm = norm.replace(/\b(?:dit|duoi)\s*(\d)(?![0-9])/g, 'dit$1');
+      norm = norm.replace(/\b(?:cham)\s*(\d)(?![0-9])/g, 'cham$1');
+      norm = norm.replace(/\b(?:c)\s*(\d)(?![0-9])/g, 'cham$1');
+      norm = norm.replace(/\b(?:tong)\s*(\d)(?![0-9])/g, 't$1');
+      norm = norm.replace(/\b(?:d)\s*(\d)(?![0-9])/g, 'd$1');
+      norm = norm.replace(/\b(?:t)\s*(\d)(?![0-9])/g, 't$1');
+      norm = norm.replace(/\b(?:bo|he)\s*(\d{1,2})(?![0-9])/g, 'bo$1');
+      norm = norm.replace(/\b(?:moi\s*con\s*bang|moi\s*con)\b/g, 'mc');
+      norm = norm.replace(/\b(?:3\s*cang|3\s*c)\b/g, '3c');
+      norm = norm.replace(/\b(?:xien\s*quay|x\s*quay)\b/g, 'xq');
+      norm = norm.replace(/\b(?:lo\s*xien|l\s*xien)\b/g, 'xien');
+      norm = norm.replace(/((?:mỗi\s*con\s*=?|moi\s*con\s*=?|mc\s*=|mc|=\s*mc|=|\+|\*|x)\s*\d+(?:\.\d+)?)\s*[\.,;](?=[\s.,;\-\d]|$)/gi, '$1 ');
+      norm = norm.replace(/\s*[,.]\s*(?==|x|mc|moi\s*con|\+|\*)/g, ' ');
+
+      norm = norm.replace(/([a-z0-9])\s*(mỗi\s*con\s*=?|moi\s*con\s*=?|mc\s*=|mc|=\s*mc|=|\+|\*|x)\s*(\d+(?:\.\d+)?)(?:\s*(?:d|đ|₫|k|n)(?=[\s.,;\-\d]|$))?(?![a-z0-9])/gi, (m, p, rawOp, amt) => {
+        const op = rawOp.includes('=') ? '=' : 'x';
+        return p + op + amt;
+      });
+      norm = norm.replace(/\bmc\s*(\d+(?:\.\d+)?)(?:\s*(?:d|đ|₫|k|n)(?=[\s.,;\-\d]|$))?(?![a-z0-9])/gi, '=$1');
+      norm = norm.replace(/\s+(\d+(?:\.\d+)?)\s*(?:d|đ|₫|k|n)(?![a-z0-9])/gi, ' =$1');
+
+      return norm;
+    }
+
+    function expandMultiBets(text) {
+      const HSPACE = '[^\\S\\r\\n]';
+      const catChoices = 'lô|lo|l|đề|de|đê|đe|dê|dè|đè|đ|d|xienquay|xq|xienq|quay|xquay|xien|xiên|3cang|3càng|3c|bc';
+      const catMap = {
+        'lo': 'lo', 'lô': 'lo', 'l': 'lo',
+        'de': 'de', 'đề': 'de', 'đê': 'de', 'đe': 'de', 'dê': 'de', 'dè': 'de', 'đè': 'de', 'd': 'de', 'đ': 'de',
+        'xien': 'xien', 'xiên': 'xien',
+        'xienquay': 'xienquay', 'xq': 'xienquay', 'xienq': 'xienquay', 'quay': 'xienquay', 'xquay': 'xienquay',
+        '3cang': 'bacang', '3càng': 'bacang', '3c': 'bacang', 'bc': 'bacang'
+      };
+
+      const multiBetRegex = new RegExp(
+        '(?:^|[\\r\\n;,]|' + HSPACE + '+)' +
+        '(' + catChoices + ')' +
+        '(?:' + HSPACE + '+|[.:;\\-])' +
+        '([0-9.,\\-\\s_a-zA-Z\'’‘＇`]+?)' +
+        '\\s*(x|\\*|=|\\+|mc|mỗi\\s*con\\s*=?|moi\\s*con\\s*=?)' +
+        '\\s*(\\d+(?:\\.\\d+)?(?:k|d|n|đ|₫)?)\\.?' +
+        '((?:' + HSPACE + '*[,;.:\\-]?' + HSPACE + '*(?:' + catChoices + ')(?:' + HSPACE + '*(?:x|\\*|=|\\+|mc|mỗi\\s*con\\s*=?|moi\\s*con\\s*=?)\\s*|' + HSPACE + '+)\\d+(?:\\.\\d+)?(?:k|d|n|đ|₫)?)+)' +
+        '(?=[.,;:' + HSPACE + ']|$)',
+        'gim'
+      );
+
+      const subClauseRegex = new RegExp(
+        HSPACE + '*[,;.:\\-]?' + HSPACE + '*' +
+        '(' + catChoices + ')' +
+        '(?:' + HSPACE + '*(x|\\*|=|\\+|mc|mỗi\\s*con\\s*=?|moi\\s*con\\s*=?)\\s*|' + HSPACE + '+)' +
+        '(\\d+(?:\\.\\d+)?(?:k|d|n|đ|₫)?)',
+        'gi'
+      );
+
+      return text.replace(multiBetRegex, (match, cat1, nums, op1, amt1, rest) => {
+        const c1Lower = cat1.trim().toLowerCase();
+        const c1 = catMap[c1Lower] || c1Lower;
+        const lines = [c1 + ' ' + nums.trim() + op1.trim() + amt1.trim()];
+
+        let subMatch;
+        subClauseRegex.lastIndex = 0;
+        while ((subMatch = subClauseRegex.exec(rest)) !== null) {
+          const cKLower = subMatch[1].trim().toLowerCase();
+          const cK = catMap[cKLower] || cKLower;
+          const opK = (subMatch[2] && subMatch[2].trim()) ? subMatch[2].trim() : 'x';
+          const amtK = subMatch[3].trim();
+          lines.push(cK + ' ' + nums.trim() + opK + amtK);
+        }
+
+        return '\n' + lines.join('\n') + '\n';
+      });
+    }
+
+    // Phân tích dữ liệu nhập cược chuẩn 1:1 theo bet_parser.py
+    function parseCombinedInput(inputStr, customShortcuts) {
+      let processed = inputStr.replace(/[’‘ʼ＇`]/g, "'");
+      processed = processed.replace(/\b(?:3\s*cang|3\s*càng|ba\s*cang|ba\s*càng|3\s*c)\b/gi, '3cang');
+
+      // Tách từ khóa đứng liền số: de88 -> de 88
+      const keywordRegex = /(^|[\s,;.])(xienquay|xquay|xienq|3cang|3càng|3\s*càng|3\s*cang|quay|xien|xiên|xq|de|đề|đê|đe|dê|dè|đè|Dè|Đè|dề|Dề|lo|lô|3c|bc|càng|cang|d(?!\d(?!\d))|đ(?!\d(?!\d))|l|c|q|x)(\d)/gi;
+      processed = processed.replace(keywordRegex, "$1$2 $3");
+
+      processed = expandMultiBets(processed);
+
+      // Tách dòng nếu có danh mục mới trên cùng một dòng
+      const sameLinePattern = /[\s,;.:\-]+(xienquay|xq|xienq|quay|q|xquay|lô\s*xiên|lo\s*xien|đề|de|đê|đe|dê|dè|đè|Dè|Đè|dề|Dề|lô|lo|l|xiên|xien|x2|x3|x4)(?=[\s.,;\-\d:]|$)|[\s,;.:\-]+(3càng|3cang|3\s*càng|3\s*cang|3c|bc|càng|cang)(?=[\s.,;\-\d:]|$)|[\s,;.:\-]+(d|đ|l|c)(?=[\s.,;\-\d:]|$)(?=\s+[a-z0-9'’‘＇`])/gi;
+      processed = processed.replace(sameLinePattern, match => "\n" + match.replace(/^[\s,;.:\-]+/, '').trim());
+
+      // Tách dòng sau mỗi cụm cược
+      const betSplitRegex = /([a-z0-9])\s*((?:mỗi\s*con\s*=?|moi\s*con\s*=?|mc\s*=|mc|=\s*mc|=|\+|\*|x)\s*\d+(?:\.\d+)?(?:\s*(?:d|đ|₫|k|n)(?=[\s.,;\-\d]|$))?)\b[\s.,;\-]+(?=[^\s.,;\-])/gi;
+      processed = processed.replace(betSplitRegex, '$1 $2\n');
+
+      const lines = processed.split('\n');
+      const parsedBets = {
+        de: [],
+        lo: [],
+        xien2: [],
+        xien3: [],
+        xien4: [],
+        bacang: [],
+        ordered_items: [],
+        invalid_items: []
+      };
+
+      const typeRegex = {
+        de: /^(de|d)$/i,
+        lo: /^(lo|l)$/i,
+        xienquay: /^(xienquay|xq|xienq|quay|q|xquay)$/i,
+        xien: /^(lo\s*xien|l\s*xien|xien|x|x2|x3|x4)$/i,
+        bacang: /^(3cang|3c|c|bc|cang|3\s*cang)$/i
+      };
+
+      let activeCategory = 'de';
+
+      for (let i = 0; i < lines.length; i++) {
+        const origLine = lines[i].trim();
+        if (!origLine) continue;
+
+        let trimmed = normalizeBetLine(origLine, customShortcuts);
+        let lineType = '';
+
+        const mSpace = trimmed.match(/^(xienquay|xq|xienq|quay|q|xquay|lo\s*xien|l\s*xien|de|lo|xien|x2|x3|x4|3cang|3c|d|l|c|bc|cang|3\s*cang|bo|he)(?:\b|[.:;\-\s])\s*(.*)$/i);
+        if (mSpace) {
+          const rawT = mSpace[1].toLowerCase();
+          if (typeRegex.de.test(rawT)) lineType = 'de';
+          else if (typeRegex.lo.test(rawT)) lineType = 'lo';
+          else if (typeRegex.xienquay.test(rawT)) lineType = 'xienquay';
+          else if (typeRegex.xien.test(rawT)) lineType = 'xien';
+          else if (typeRegex.bacang.test(rawT)) lineType = 'bacang';
+
+          if (lineType) {
+            activeCategory = lineType;
+            trimmed = mSpace[2] ? mSpace[2].replace(/^[.:;\-\s]+/, '').trim() : '';
+            if (!trimmed) continue;
+          }
+        }
+
+        if (!lineType) lineType = activeCategory;
+
+        // Bắt các cụm cược: [các số / từ khóa] [x / = / + / *] [số tiền]
+        const groupRegex = /([a-wy-z0-9'’‘＇`.,\-\s]+)([x=+*])(\d+(?:\.\d+)?)/gi;
+        let gMatch;
+        let matchFound = false;
+
+        while ((gMatch = groupRegex.exec(trimmed)) !== null) {
+          matchFound = true;
+          const rawNumStr = gMatch[1].trim();
+          const amt = parseFloat(gMatch[3]);
+          if (amt <= 0 || isNaN(amt)) continue;
+
+          // Giải mã từ khóa
+          const numStr = resolveShorthands(rawNumStr, customShortcuts);
+          const rawTokens = numStr.split(/[.,\-\s]+/).filter(Boolean);
+          const validNumbers = [];
+
+          for (let k = 0; k < rawTokens.length; k++) {
+            const tok = rawTokens[k];
+            if (!/^\d+$/.test(tok)) {
+              parsedBets.invalid_items.push(tok);
+              continue;
+            }
+
+            if (lineType === 'de' || lineType === 'lo' || lineType === 'xien' || lineType === 'xienquay') {
+              if (tok.length === 2) {
+                validNumbers.push(tok);
+              } else if (tok.length === 3 && tok[0] === tok[2]) {
+                // Tách số đối xứng: 050 -> 05, 50 | 686 -> 68, 86
+                validNumbers.push(tok.slice(0, 2));
+                validNumbers.push(tok.slice(1, 3));
+              } else {
+                parsedBets.invalid_items.push(tok);
+              }
+            } else if (lineType === 'bacang') {
+              if (tok.length === 3) {
+                validNumbers.push(tok);
+              } else {
+                parsedBets.invalid_items.push(tok);
+              }
+            }
+          }
+
+          if (validNumbers.length === 0) continue;
+
+          if (lineType === 'xien') {
+            if (validNumbers.length >= 2 && validNumbers.length <= 4) {
+              parsedBets[`xien${validNumbers.length}`].push({ numbers: validNumbers, amount: amt });
+              parsedBets.ordered_items.push({ type: 'xien', number: validNumbers.join('-'), amount: amt });
+            } else {
+              parsedBets.invalid_items.push(validNumbers.join('.'));
+            }
+          } else if (lineType === 'xienquay') {
+            if (validNumbers.length >= 2) {
+              const combos = (arr, k) => {
+                if (k === 1) return arr.map(e => [e]);
+                const result = [];
+                for (let idx = 0; idx < arr.length; idx++) {
+                  const head = arr[idx];
+                  const tail = arr.slice(idx + 1);
+                  combos(tail, k - 1).forEach(c => result.push([head, ...c]));
+                }
+                return result;
+              };
+              [2, 3, 4].forEach(kLen => {
+                if (validNumbers.length >= kLen) {
+                  combos(validNumbers, kLen).forEach(c => {
+                    parsedBets[`xien${kLen}`].push({ numbers: c, amount: amt });
+                    parsedBets.ordered_items.push({ type: 'xien', number: c.join('-'), amount: amt });
+                  });
+                }
+              });
+            }
+          } else {
+            for (let idx = 0; idx < validNumbers.length; idx++) {
+              parsedBets[lineType].push({ number: validNumbers[idx], amount: amt });
+              parsedBets.ordered_items.push({ type: lineType, number: validNumbers[idx], amount: amt });
+            }
+          }
+        }
+
+        if (!matchFound) {
+          const cleanedCheck = origLine.replace(/^[.:;\-\s]+/, '').trim();
+          if (cleanedCheck && !/^(de|đề|lo|lô|xien|xiên|3cang|3c|bc)$/i.test(cleanedCheck)) {
+            parsedBets.invalid_items.push(origLine);
+          }
+        }
+      }
+
+      return parsedBets;
+    }
+
+    // TÍNH TỔNG SỐ CƯỢC & SO KHỚP KẾT QUẢ 27 GIẢI (PHÂN BIỆT RẠCH RÒI TỪNG LOẠI HÌNH Ở CẢ 3 CỘT)
+    function calculateSum() {
+      const numbersInput = document.getElementById("numbers").value;
+      const customShortcuts = getCustomShortcuts();
+      const parsedData = parseCombinedInput(numbersInput, customShortcuts);
+
+      // Cấu trúc phân loại riêng biệt cho các loại hình
+      const categories = {
+        de: { label: "ĐỀ", short: "Đ", sums: {}, processed: [], total: 0 },
+        lo: { label: "LÔ", short: "L", sums: {}, processed: [], total: 0 },
+        bacang: { label: "3 CÀNG", short: "C", sums: {}, processed: [], total: 0 },
+        xien: { label: "XIÊN", short: "X", sums: {}, processed: [], total: 0 }
+      };
+
+      // Cược chi tiết cho từng loại hình phục vụ bảng cược: de, lo, x2, x3, x4, c3
+      const subBets = {
+        de: 0,
+        lo: 0,
+        x2: 0,
+        x3: 0,
+        x4: 0,
+        c3: 0
+      };
+
+      // 1. Phân loại cược Đề
+      parsedData.de.forEach(item => {
+        categories.de.sums[item.number] = (categories.de.sums[item.number] || 0) + item.amount;
+        categories.de.total += item.amount;
+        subBets.de += item.amount;
+        categories.de.processed.push({
+          type: 'de',
+          number: item.number,
+          amount: item.amount,
+          text: item.number + "x" + item.amount
+        });
+      });
+
+      // 2. Phân loại cược Lô
+      parsedData.lo.forEach(item => {
+        categories.lo.sums[item.number] = (categories.lo.sums[item.number] || 0) + item.amount;
+        categories.lo.total += item.amount;
+        subBets.lo += item.amount;
+        categories.lo.processed.push({
+          type: 'lo',
+          number: item.number,
+          amount: item.amount,
+          text: item.number + "x" + item.amount
+        });
+      });
+
+      // 3. Phân loại cược 3 Càng (chỉ tính 1 lần cược cho 3C)
+      parsedData.bacang.forEach(item => {
+        categories.bacang.sums[item.number] = (categories.bacang.sums[item.number] || 0) + item.amount;
+        categories.bacang.total += item.amount;
+        subBets.c3 += item.amount;
+        categories.bacang.processed.push({
+          type: 'bacang',
+          number: item.number,
+          amount: item.amount,
+          text: item.number + "x" + item.amount
+        });
+      });
+
+      // 4. Phân loại cược Xiên (xien2, xien3, xien4)
+      ['xien2', 'xien3', 'xien4'].forEach(xKey => {
+        const subKey = xKey === 'xien2' ? 'x2' : (xKey === 'xien3' ? 'x3' : 'x4');
+        parsedData[xKey].forEach(item => {
+          const xStr = item.numbers.join('-');
+          categories.xien.sums[xStr] = (categories.xien.sums[xStr] || 0) + item.amount;
+          categories.xien.total += item.amount;
+          subBets[subKey] += item.amount;
+          categories.xien.processed.push({
+            type: 'xien',
+            number: xStr,
+            amount: item.amount,
+            text: xStr + "x" + item.amount
+          });
+        });
+      });
+
+      // Đọc 27 giải xổ số
+      const twentySevenNumbersInput = document.getElementById("twentySevenNumbers").value;
+      const twentySevenNumbersArray = twentySevenNumbersInput.split(/\s+/).map(s => s.trim().toLowerCase()).filter(Boolean);
+
+      // Nhận diện giải Đặc biệt (phần tử đầu tiên hoặc có độ dài >= 5)
+      const specialPrize = twentySevenNumbersArray.length > 0 ? twentySevenNumbersArray[0] : "";
+      const specialLast2 = specialPrize.length >= 2 ? specialPrize.slice(-2) : "";
+      const specialLast3 = specialPrize.length >= 3 ? specialPrize.slice(-3) : "";
+
+      // ==========================================
+      // CỘT 1: KẾT QUẢ (PHÂN BIỆT THEO LOẠI HÌNH)
+      // ==========================================
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = "";
+
+      let grandTotalBet = 0;
+      let grandTotalWin = 0;
+      const winAmounts = { de: 0, lo: 0, bacang: 0, xien: 0 };
+      const subWins = { de: 0, lo: 0, x2: 0, x3: 0, x4: 0, c3: 0, c3_chinh: 0, c3_apma: 0 };
+      const summaryBadges = [];
+      const catOrder = ['de', 'lo', 'bacang', 'xien'];
+
+      catOrder.forEach(catKey => {
+        const cat = categories[catKey];
+        const entries = Object.entries(cat.sums).sort((a, b) => b[1] - a[1]);
+        if (entries.length === 0) return;
+
+        grandTotalBet += cat.total;
+        summaryBadges.push(`${cat.label}: ${entries.length} con (${cat.total.toLocaleString("vi-VN")})`);
+
+        const catBlock = document.createElement("div");
+        catBlock.className = "category-block";
+
+        const badge = document.createElement("div");
+        badge.className = "category-header-badge";
+        badge.textContent = `── ${cat.label} (${entries.length} con - ${cat.total.toLocaleString("vi-VN")}) ──`;
+        catBlock.appendChild(badge);
+
+        entries.forEach(([num, amt]) => {
+          const div = document.createElement("div");
+          div.textContent = `${num} = ${amt}`;
+
+          // So giải trúng: Lô tính theo số lần xuất hiện (nháy); Đề, 3 Càng, Xiên chỉ trúng tối đa 1 lần
+          let hits = 0;
+          if (catKey === 'lo') {
+            hits = twentySevenNumbersArray.filter(prize => prize === num || prize.endsWith(num)).length;
+            if (hits > 0) subWins.lo += amt * hits;
+          } else if (catKey === 'xien') {
+            const parts = num.split('-');
+            if (parts.length > 0 && parts.every(p => twentySevenNumbersArray.some(prize => prize === p || prize.endsWith(p)))) {
+              hits = 1;
+              const xKey = parts.length === 2 ? 'x2' : (parts.length === 3 ? 'x3' : 'x4');
+              subWins[xKey] += amt;
+            }
+          } else if (catKey === 'bacang') {
+            // 3 Càng: Kiểm tra Chính diện và Áp má theo giải Đặc biệt (chỉ tính 1 lần cược)
+            let isChinh = false;
+            let isApMa = false;
+            if (specialLast3 && num === specialLast3) {
+              isChinh = true;
+              subWins.c3_chinh += amt;
+              subWins.c3 += amt;
+            } else if (specialLast2 && num.slice(-2) === specialLast2) {
+              isApMa = true;
+              subWins.c3_apma += amt;
+              subWins.c3 += amt;
+            }
+
+            const hasHit = isChinh || isApMa;
+            hits = hasHit ? 1 : 0;
+            if (isChinh) {
+              div.textContent += " (Chính diện)";
+            } else if (isApMa) {
+              div.textContent += " (Áp má)";
+            }
+          } else {
+            // Đề chỉ trúng tối đa 1 lần
+            const hasHit = twentySevenNumbersArray.some(prize => prize === num || prize.endsWith(num));
+            hits = hasHit ? 1 : 0;
+            if (hits > 0) subWins.de += amt;
+          }
+
+          if (hits > 0) {
+            div.classList.add("matching-number");
+            if (hits > 1 && catKey === 'lo') {
+              div.textContent += ` (${hits} nháy)`;
+            }
+            const winVal = amt * hits;
+            grandTotalWin += winVal;
+            winAmounts[catKey] += winVal;
+          }
+
+          catBlock.appendChild(div);
+        });
+
+        resultDiv.appendChild(catBlock);
+      });
+
+      // Cập nhật số con của từng loại hình tại header cột Kết quả (span#totalSum)
+      const resCounts = [];
+      if (Object.keys(categories.de.sums).length > 0) resCounts.push(`Đ: ${Object.keys(categories.de.sums).length}`);
+      if (Object.keys(categories.lo.sums).length > 0) resCounts.push(`L: ${Object.keys(categories.lo.sums).length}`);
+      if (Object.keys(categories.bacang.sums).length > 0) resCounts.push(`C: ${Object.keys(categories.bacang.sums).length}`);
+      if (Object.keys(categories.xien.sums).length > 0) resCounts.push(`X: ${Object.keys(categories.xien.sums).length}`);
+      document.getElementById("totalSum").textContent = resCounts.length > 0 ? resCounts.join(" | ") : "0";
+
+      // ==========================================
+      // CỘT 2: CHUYỂN (PHÂN BIỆT THEO LOẠI HÌNH)
+      // ==========================================
+      const retainCats = ['de', 'lo', 'xien', 'bacang'];
+      const retainConfig = {};
+      retainCats.forEach(k => {
+        retainConfig[k] = {
+          val: parseFloat(document.getElementById(`retainVal_${k}`)?.value) || 0,
+          type: document.getElementById(`retainType_${k}`)?.value || "money",
+          max: parseFloat(document.getElementById(`retainMax_${k}`)?.value) || 0
+        };
+      });
+
+      let modifiedHtml = "";
+      let grandTotalTransfer = 0;
+      const transferCounts = [];
+      const transferSums = { de: 0, lo: 0, xien: 0, bacang: 0 };
+      const transferWinAmounts = { de: 0, lo: 0, xien: 0, bacang: 0 };
+      const subTransferBets = { de: 0, lo: 0, x2: 0, x3: 0, x4: 0, c3: 0 };
+      const subTransferWins = { de: 0, lo: 0, x2: 0, x3: 0, x4: 0, c3: 0, c3_chinh: 0, c3_apma: 0 };
+      const catPrefixMap = {
+        de: 'ĐỀ ',
+        lo: 'LÔ ',
+        bacang: '3c ',
+        xien: 'Xiên '
+      };
+      const transferExportLines = [];
+
+      catOrder.forEach(catKey => {
+        const cat = categories[catKey];
+        const entries = Object.entries(cat.sums).sort((a, b) => b[1] - a[1]);
+        if (entries.length === 0) return;
+
+        const cfg = retainConfig[catKey] || { val: 0, type: "money", max: 0 };
+        const catTransferLines = [];
+        const catTransferHtmlItems = [];
+        let catTransferSum = 0;
+
+        entries.forEach(([num, amt]) => {
+          let retained = 0;
+          if (cfg.type === "money") {
+            retained = Math.min(amt, cfg.val);
+          } else if (cfg.type === "percentage") {
+            retained = amt * (cfg.val / 100);
+          }
+
+          // Giới hạn giữ lại tối đa cho 1 con (nếu có đặt max > 0)
+          if (cfg.max > 0 && retained > cfg.max) {
+            retained = cfg.max;
+          }
+
+          let modSum = amt - retained;
+
+          if (modSum >= 1) {
+            const roundedMod = Math.trunc(modSum);
+            catTransferLines.push(`${num}x${roundedMod}`);
+            catTransferSum += roundedMod;
+
+            if (catKey === 'de') subTransferBets.de += roundedMod;
+            else if (catKey === 'lo') subTransferBets.lo += roundedMod;
+            else if (catKey === 'bacang') {
+              subTransferBets.c3 += roundedMod;
+            } else if (catKey === 'xien') {
+              const pCount = num.split('-').length;
+              const subK = pCount === 2 ? 'x2' : (pCount === 3 ? 'x3' : 'x4');
+              subTransferBets[subK] += roundedMod;
+            }
+
+            // Kiểm tra số nháy trúng của con này để tính tiền trúng của phần chuyển
+            let hits = 0;
+            let isChinh = false;
+            let isApMa = false;
+            if (catKey === 'lo') {
+              hits = twentySevenNumbersArray.filter(prize => prize === num || prize.endsWith(num)).length;
+              if (hits > 0) subTransferWins.lo += roundedMod * hits;
+            } else if (catKey === 'xien') {
+              const parts = num.split('-');
+              if (parts.length > 0 && parts.every(p => twentySevenNumbersArray.some(prize => prize === p || prize.endsWith(p)))) {
+                hits = 1;
+                const subK = parts.length === 2 ? 'x2' : (parts.length === 3 ? 'x3' : 'x4');
+                subTransferWins[subK] += roundedMod;
+              }
+            } else if (catKey === 'bacang') {
+              if (specialLast3 && num === specialLast3) {
+                isChinh = true;
+                subTransferWins.c3_chinh += roundedMod;
+                subTransferWins.c3 += roundedMod;
+              } else if (specialLast2 && num.slice(-2) === specialLast2) {
+                isApMa = true;
+                subTransferWins.c3_apma += roundedMod;
+                subTransferWins.c3 += roundedMod;
+              }
+              const hasHit = isChinh || isApMa;
+              hits = hasHit ? 1 : 0;
+            } else {
+              // Đề chỉ trúng tối đa 1 lần
+              const hasHit = twentySevenNumbersArray.some(prize => prize === num || prize.endsWith(num));
+              hits = hasHit ? 1 : 0;
+              if (hits > 0) subTransferWins.de += roundedMod;
+            }
+
+            if (hits > 0) {
+              transferWinAmounts[catKey] += roundedMod * hits;
+              let extraText = '';
+              if (hits > 1 && catKey === 'lo') {
+                extraText = ` (${hits} nháy)`;
+              } else if (catKey === 'bacang') {
+                if (isChinh) extraText = ' (Chính diện)';
+                else if (isApMa) extraText = ' (Áp má)';
+              }
+              catTransferHtmlItems.push(`<div class="matching-number">${num}x${roundedMod}${extraText}</div>`);
+            } else {
+              catTransferHtmlItems.push(`<div>${num}x${roundedMod}</div>`);
+            }
+          }
+        });
+
+        transferSums[catKey] = catTransferSum;
+
+        if (catTransferLines.length > 0) {
+          grandTotalTransfer += catTransferSum;
+          transferCounts.push(`${cat.short.toUpperCase()}: ${catTransferLines.length}`);
+          modifiedHtml += `<div class="category-header-badge">── ${cat.label} (chuyển ${catTransferSum.toLocaleString("vi-VN")}) ──</div>`;
+          modifiedHtml += catTransferHtmlItems.join("");
+
+          catTransferLines.forEach((line, idx) => {
+            if (idx === 0) {
+              transferExportLines.push(catPrefixMap[catKey] + line);
+            } else {
+              transferExportLines.push(line);
+            }
+          });
+        }
+      });
+
+      window.transferExportText = transferExportLines.join("\n");
+      document.getElementById("modifiedResult").innerHTML = modifiedHtml;
+      // Cập nhật số con của từng loại hình tại header cột Chuyển (span#modifiedTotalSum)
+      document.getElementById("modifiedTotalSum").textContent = transferCounts.length > 0 ? transferCounts.join(" | ") : "0";
+
+      // ==========================================
+      // CẬP NHẬT THANH "TẤT CẢ" (HIỂN THỊ KIỂU: CƯỢC/TRÚNG CHO TỪNG LOẠI HÌNH Đ, L, X, C)
+      // ==========================================
+      const betSums = {
+        de: categories.de.total,
+        lo: categories.lo.total,
+        xien: categories.xien.total,
+        bacang: categories.bacang.total,
+        ...subBets
+      };
+
+      const transferSumsAll = {
+        ...transferSums,
+        ...subTransferBets
+      };
+
+      const winAmountsAll = {
+        ...winAmounts,
+        ...subWins
+      };
+
+      const transferWinAmountsAll = {
+        ...transferWinAmounts,
+        ...subTransferWins
+      };
+
+      const retainSums = {
+        de: Math.max(0, betSums.de - transferSums.de),
+        lo: Math.max(0, betSums.lo - transferSums.lo),
+        xien: Math.max(0, betSums.xien - transferSums.xien),
+        bacang: Math.max(0, betSums.bacang - transferSums.bacang),
+        x2: Math.max(0, subBets.x2 - subTransferBets.x2),
+        x3: Math.max(0, subBets.x3 - subTransferBets.x3),
+        x4: Math.max(0, subBets.x4 - subTransferBets.x4),
+        c3: Math.max(0, subBets.c3 - subTransferBets.c3)
+      };
+
+      const retainWinAmounts = {
+        de: Math.max(0, winAmounts.de - transferWinAmounts.de),
+        lo: Math.max(0, winAmounts.lo - transferWinAmounts.lo),
+        xien: Math.max(0, winAmounts.xien - transferWinAmounts.xien),
+        bacang: Math.max(0, winAmounts.bacang - transferWinAmounts.bacang),
+        x2: Math.max(0, subWins.x2 - subTransferWins.x2),
+        x3: Math.max(0, subWins.x3 - subTransferWins.x3),
+        x4: Math.max(0, subWins.x4 - subTransferWins.x4),
+        c3: Math.max(0, subWins.c3 - subTransferWins.c3),
+        c3_chinh: Math.max(0, subWins.c3_chinh - subTransferWins.c3_chinh),
+        c3_apma: Math.max(0, subWins.c3_apma - subTransferWins.c3_apma)
+      };
+
+      const totalBet = grandTotalBet;
+      const totalWin = grandTotalWin;
+
+      const totalTransfer = grandTotalTransfer;
+      const totalTransferWin = transferWinAmounts.de + transferWinAmounts.lo + transferWinAmounts.xien + transferWinAmounts.bacang;
+
+      const totalRetain = Math.max(0, totalBet - totalTransfer);
+      const totalRetainWin = Math.max(0, totalWin - totalTransferWin);
+
+      function renderCategoryLines(mainObj, winObj) {
+        const catDefs = [
+          { key: 'de', label: 'Đ' },
+          { key: 'lo', label: 'L' },
+          { key: 'xien', label: 'X' },
+          { key: 'bacang', label: 'C' }
+        ];
+        return catDefs.map(c => {
+          const mainVal = (mainObj[c.key] || 0).toLocaleString("vi-VN");
+          const winVal = winObj[c.key] || 0;
+          const winText = winVal > 0 ? `<span class="win-num">${winVal.toLocaleString("vi-VN")}</span>` : '0';
+          return `<div class="summary-line"><span>${c.label}:</span> <span>${mainVal}/${winText}</span></div>`;
+        }).join("");
+      }
+
+      // Lưu lại trạng thái cược hiện tại
+      window.currentBetState = {
+        betSums: betSums,
+        winAmounts: winAmountsAll,
+        transferSums: transferSumsAll,
+        transferWinAmounts: transferWinAmountsAll,
+        retainSums: retainSums,
+        retainWinAmounts: retainWinAmounts
+      };
+
+      // 1. Cột CƯỢC
+      const sumBetDetailEl = document.getElementById("sumBetDetail");
+      if (sumBetDetailEl) sumBetDetailEl.innerHTML = renderCategoryLines(betSums, winAmounts);
+
+      // 2. Cột CHUYỂN
+      const sumTransferDetailEl = document.getElementById("sumTransferDetail");
+      if (sumTransferDetailEl) sumTransferDetailEl.innerHTML = renderCategoryLines(transferSums, transferWinAmounts);
+
+      // 3. Cột GIỮ LẠI
+      const sumRetainDetailEl = document.getElementById("sumRetainDetail");
+      if (sumRetainDetailEl) sumRetainDetailEl.innerHTML = renderCategoryLines(retainSums, retainWinAmounts);
+
+      // Cập nhật số tiền -/+ trên header của 3 cột
+      updateSummaryCardHeaders();
+
+      // ==========================================
+      // CỘT 3: CHI TIẾT (HIỂN THỊ THEO CHÍNH XÁC THỨ TỰ NHẬP VÀO)
+      // ==========================================
+      const inputList = document.getElementById("inputList");
+      inputList.innerHTML = "";
+
+      const detailPrefixMap = {
+        de: 'Đề ',
+        lo: 'Lô ',
+        bacang: '3c ',
+        xien: 'Xiên '
+      };
+
+      (parsedData.ordered_items || []).forEach(item => {
+        const li = document.createElement("li");
+        const prefix = detailPrefixMap[item.type] || '';
+        li.textContent = `${prefix}${item.number}x${item.amount}`;
+
+        // Kiểm tra trúng để tô đỏ và hiển thị mở ngoặc (Chính diện / Áp má / nháy)
+        let hits = 0;
+        let extraText = '';
+        if (item.type === 'lo') {
+          hits = twentySevenNumbersArray.filter(prize => prize === item.number || prize.endsWith(item.number)).length;
+          if (hits > 1) extraText = ` (${hits} nháy)`;
+        } else if (item.type === 'xien') {
+          const parts = item.number.split('-');
+          hits = (parts.length > 0 && parts.every(p => twentySevenNumbersArray.some(prize => prize === p || prize.endsWith(p)))) ? 1 : 0;
+        } else if (item.type === 'bacang') {
+          let isChinh = false;
+          let isApMa = false;
+          if (specialLast3 && item.number === specialLast3) {
+            isChinh = true;
+          } else if (specialLast2 && item.number.slice(-2) === specialLast2) {
+            isApMa = true;
+          }
+          hits = (isChinh || isApMa) ? 1 : 0;
+          if (isChinh) extraText = ' (Chính diện)';
+          else if (isApMa) extraText = ' (Áp má)';
+        } else {
+          // Đề chỉ trúng tối đa 1 lần
+          const hasHit = twentySevenNumbersArray.some(prize => prize === item.number || prize.endsWith(item.number));
+          hits = hasHit ? 1 : 0;
+        }
+
+        if (hits > 0) {
+          li.classList.add("matching-number");
+          li.textContent += extraText;
+        }
+        inputList.appendChild(li);
+      });
+
+      // ==========================================
+      // TỰ ĐỘNG ĐỒNG BỘ VÀO BẢNG TÍNH TIỀN CƯỢC 6 DÒNG (ĐỀ, LÔ, X2, X3, X4, 3 CÀNG)
+      // ==========================================
+      const hasAnyBet = categories.de.total > 0 || categories.lo.total > 0 || categories.xien.total > 0 || categories.bacang.total > 0;
+      if (hasAnyBet || grandTotalWin > 0) {
+        // Đồng bộ Cột Cược
+        const syncRow = (k, betVal, winVal) => {
+          const inEl = document.getElementById(`input_${k}`);
+          const bnEl = document.getElementById(`bonus_${k}`);
+          if (inEl) inEl.value = betVal;
+          if (bnEl) bnEl.value = winVal;
+        };
+
+        syncRow('de', subBets.de, subWins.de);
+        syncRow('lo', subBets.lo, subWins.lo);
+        syncRow('x2', subBets.x2, subWins.x2);
+        syncRow('x3', subBets.x3, subWins.x3);
+        syncRow('x4', subBets.x4, subWins.x4);
+
+        // 3 Càng: Cược 1 ô, Trúng chia làm 2 ô (Chính diện và Áp má)
+        const inC3 = document.getElementById('input_c3');
+        const bnC3 = document.getElementById('bonus_c3');
+        const bnC3Apma = document.getElementById('bonus_c3apma');
+        if (inC3) inC3.value = subBets.c3;
+        if (bnC3) bnC3.value = subWins.c3_chinh;
+        if (bnC3Apma) bnC3Apma.value = subWins.c3_apma;
+        updateBonusC3Visibility();
+
+        // Tính toán lại toàn bộ bảng thanh toán
+        BET_ROW_KEYS.forEach(k => {
+          calculateResultRow(k);
+        });
+      }
+    }
+
+    // Xử lý lại chi tiết các số khi cần
+    function processInputNumbers() {
+      // Đã được tích hợp trọn vẹn và đồng bộ 100% trong calculateSum()
+    }
+
+    // Lưu và nạp Cài đặt giá & thưởng vào localStorage
+    function savePriceSettings() {
+      const cfg = {};
+      BET_ROW_KEYS.forEach(k => {
+        cfg[k] = {
+          price: document.getElementById(`price_${k}`)?.value || "0",
+          payout: document.getElementById(`payout_${k}`)?.value || "0"
+        };
+      });
+      cfg.c3apma = {
+        payout: document.getElementById("payout_c3apma")?.value || "5"
+      };
+      localStorage.setItem("bet_price_and_payout_settings_v2", JSON.stringify(cfg));
+    }
+
+    function loadPriceSettings() {
+      try {
+        const raw = localStorage.getItem("bet_price_and_payout_settings_v2");
+        if (raw) {
+          const cfg = JSON.parse(raw);
+          BET_ROW_KEYS.forEach(k => {
+            if (cfg[k]) {
+              const pEl = document.getElementById(`price_${k}`);
+              const pyEl = document.getElementById(`payout_${k}`);
+              if (pEl && cfg[k].price !== undefined) pEl.value = cfg[k].price;
+              if (pyEl && cfg[k].payout !== undefined) pyEl.value = cfg[k].payout;
+            }
+          });
+          if (cfg.c3apma && cfg.c3apma.payout !== undefined) {
+            const pyApmaEl = document.getElementById("payout_c3apma");
+            if (pyApmaEl) pyApmaEl.value = cfg.c3apma.payout;
+          }
+        }
+      } catch (e) {
+        console.error("Lỗi nạp cài đặt giá & thưởng:", e);
+      }
+    }
+
+    // Sự kiện khi người dùng sửa giá hoặc thưởng ở khung Cài đặt giá
+    function onPriceConfigChange(k) {
+      savePriceSettings();
+      calculateResultRow(k);
+      updateSummaryCardHeaders();
+    }
+
+    // === TÍNH TOÁN DÒNG CƯỢC CỤ THỂ TRONG BẢNG: ĐỀ, LÔ, X2, X3, X4, 3 CÀNG ===
+    function calculateResultRow(key) {
+      const input = parseFloat(document.getElementById(`input_${key}`)?.value) || 0;
+      const bonus = parseFloat(document.getElementById(`bonus_${key}`)?.value) || 0;
+      const priceVal = parseFloat(document.getElementById(`price_${key}`)?.value) || 0;
+      const payoutVal = parseFloat(document.getElementById(`payout_${key}`)?.value) || 0;
+
+      let result = 0;
+      let bonusResult = 0;
+
+      if (key === 'lo') {
+        // Lô: tiền xác = điểm * giá vốn, tiền trúng = điểm trúng * thưởng
+        result = input * priceVal;
+        bonusResult = bonus * payoutVal;
+      } else if (key === 'c3') {
+        // 3 Càng: tiền xác = tiền cược * giá / 100 (tính 1 lần duy nhất)
+        result = (input * priceVal) / 100;
+        const bonusChinh = parseFloat(document.getElementById("bonus_c3")?.value) || 0;
+        const bonusApma = parseFloat(document.getElementById("bonus_c3apma")?.value) || 0;
+        const payoutApma = parseFloat(document.getElementById("payout_c3apma")?.value) || 0;
+        bonusResult = (bonusChinh * payoutVal) + (bonusApma * payoutApma);
+      } else {
+        // Đề, Xiên: tiền xác = tiền cược * giá / 100, tiền trúng = tiền trúng * thưởng
+        result = (input * priceVal) / 100;
+        bonusResult = bonus * payoutVal;
+      }
+
+      const rEl = document.getElementById(`result_${key}`);
+      const bEl = document.getElementById(`bonusResult_${key}`);
+      if (rEl) rEl.textContent = formatExact(result);
+      if (bEl) bEl.textContent = formatExact(bonusResult);
+
+      calculateTotal();
+      calculateFinalResult();
+      savePriceSettings();
+
+      if (key === 'c3') {
+        updateBonusC3Visibility();
+      }
+
+      if (window.currentBetState) {
+        if (window.currentBetState.betSums) window.currentBetState.betSums[key] = input;
+        if (window.currentBetState.winAmounts) {
+          if (key === 'c3') {
+            const bonusChinh = parseFloat(document.getElementById("bonus_c3")?.value) || 0;
+            const bonusApma = parseFloat(document.getElementById("bonus_c3apma")?.value) || 0;
+            window.currentBetState.winAmounts.c3_chinh = bonusChinh;
+            window.currentBetState.winAmounts.c3_apma = bonusApma;
+            window.currentBetState.winAmounts.c3 = bonusChinh + bonusApma;
+          } else {
+            window.currentBetState.winAmounts[key] = bonus;
+          }
+        }
+      }
+      updateSummaryCardHeaders();
+    }
+
+    function calculateTotal() {
+      let total = 0;
+      let bonusTotal = 0;
+      BET_ROW_KEYS.forEach(k => {
+        const rEl = document.getElementById(`result_${k}`);
+        const bEl = document.getElementById(`bonusResult_${k}`);
+        const rVal = parseFloat(rEl ? rEl.textContent : 0) || 0;
+        const bVal = parseFloat(bEl ? bEl.textContent : 0) || 0;
+        total += rVal;
+        bonusTotal += bVal;
+      });
+
+      document.getElementById('total').textContent = formatExact(total);
+      document.getElementById('bonusTotal').textContent = formatExact(bonusTotal);
+    }
+
+    function calculateFinalResult() {
+      const total = parseFloat(document.getElementById('total').textContent) || 0;
+      const bonusTotal = parseFloat(document.getElementById('bonusTotal').textContent) || 0;
+      const finalResult = total - bonusTotal;
+
+      document.getElementById('finalResult').textContent = roundStandard(finalResult).toString();
+    }
+
+    // Quản lý giá trị mặc định cho ô nhập
+    function clearDefaultValue(inputField) {
+      if (inputField.value === "0") {
+        inputField.value = "";
+      }
+    }
+
+    function restoreDefaultValue(inputField) {
+      if (inputField.value.trim() === "") {
+        inputField.value = "0";
+      }
+      const match = inputField.id.match(/(?:input_|bonus_|price_|payout_)([a-z0-9]+)/);
+      if (match) {
+        const k = match[1] === 'c3apma' ? 'c3' : match[1];
+        calculateResultRow(k);
+      }
+    }
+
+    // Chuẩn hóa 27 giải
+    function normalizeTwentySevenNumbers() {
+      var twentySevenNumbersInput = document.getElementById("twentySevenNumbers").value;
+      var lines = twentySevenNumbersInput.split("\n");
+      var normalizedInput = "";
+
+      for (var i = 0; i < lines.length; i++) {
+        var numbers = lines[i].trim().split(/[;\t]/).filter(Boolean);
+        if (numbers.length > 1) {
+          numbers.shift();
+          normalizedInput += numbers.join(" ") + " ";
+        }
+      }
+
+      var finalNormalizedInput = normalizedInput.replace(/\s{2,}/g, ' ').trim();
+      document.getElementById("twentySevenNumbers").value = finalNormalizedInput;
+    }
+
+    // Sao chép kết quả chuyển
+    function copyText() {
+      var textToCopy = window.transferExportText;
+      if (textToCopy === undefined || textToCopy === null || textToCopy.trim() === "") {
+        textToCopy = document.getElementById("modifiedResult").innerText.trim();
+      }
+      if (!textToCopy) {
+        alert("Chưa có danh sách chuyển để sao chép!");
+        return;
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(textToCopy)
+          .then(function () {
+            alert("Đã sao chép thành công!");
+          })
+          .catch(function (error) {
+            alert("Sao chép thất bại. Vui lòng thử lại.");
+            console.error("Lỗi sao chép: ", error);
+          });
+      } else {
+        var textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        textArea.style.position = "fixed";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          var successful = document.execCommand("copy");
+          if (successful) {
+            alert("Đã sao chép thành công!");
+          } else {
+            throw new Error("Sao chép không thành công");
+          }
+        } catch (error) {
+          alert("Sao chép thất bại. Vui lòng thử lại.");
+        } finally {
+          document.body.removeChild(textArea);
+        }
+      }
+    }
+
+    // === HÀM COPY ẢNH BẢNG TÍNH CƯỢC VỪA VẶN MÀN HÌNH ĐIỆN THOẠI ĐỂ GỬI ZALO ===
+    async function copyTableImage() {
+      const btn = document.getElementById("copyTableImageBtn");
+      const originalText = btn.innerHTML;
+      btn.innerHTML = "⏳ Đang tạo ảnh...";
+      btn.disabled = true;
+
+      try {
+        // Tạo container ẩn để render bảng cược tối ưu cho màn hình điện thoại (chiều rộng 440px)
+        const targetWrapper = document.createElement("div");
+        targetWrapper.style.position = "fixed";
+        targetWrapper.style.left = "-9999px";
+        targetWrapper.style.top = "0";
+        targetWrapper.style.width = "440px";
+        targetWrapper.style.background = "#ffffff";
+        targetWrapper.style.padding = "16px";
+        targetWrapper.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+        targetWrapper.style.color = "#111827";
+        targetWrapper.style.boxSizing = "border-box";
+
+        const now = new Date();
+        const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} - ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+
+        const rowDefs = [
+          { key: "de", name: "Đề" },
+          { key: "lo", name: "Lô" },
+          { key: "x2", name: "Xiên 2" },
+          { key: "x3", name: "Xiên 3" },
+          { key: "x4", name: "Xiên 4" },
+          { key: "c3", name: "3 Càng" }
+        ];
+
+        const rows = rowDefs.map(r => {
+          let trungStr = document.getElementById(`bonus_${r.key}`)?.value || "0";
+          if (r.key === 'c3') {
+            const c3Chinh = document.getElementById("bonus_c3")?.value || "0";
+            const c3Apma = parseFloat(document.getElementById("bonus_c3apma")?.value) || 0;
+            if (c3Apma > 0) {
+              trungStr = `${c3Chinh}/ Áp:${c3Apma}`;
+            } else {
+              trungStr = c3Chinh;
+            }
+          }
+          return {
+            name: r.name,
+            cuoc: document.getElementById(`input_${r.key}`)?.value || "0",
+            tien: document.getElementById(`result_${r.key}`)?.textContent || "0",
+            trungTien: document.getElementById(`bonusResult_${r.key}`)?.textContent || "0",
+            trung: trungStr
+          };
+        });
+
+        const totalTien = document.getElementById("total").textContent;
+        const bonusTotal = document.getElementById("bonusTotal").textContent;
+        const finalResult = document.getElementById("finalResult").textContent;
+
+        targetWrapper.innerHTML = `
+          <div style="text-align: center; margin-bottom: 12px;">
+            <div style="font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #111827;">BẢNG THANH TOÁN CƯỢC</div>
+            <div style="font-size: 11px; color: #6b7280; margin-top: 2px;">Thời gian: ${timeStr}</div>
+          </div>
+          <table style="width: 100%; border-collapse: collapse; border: 1px solid #4b5563; font-size: 12px;">
+            <thead>
+              <tr style="background-color: #f3f4f6;">
+                <th style="border: 1px solid #4b5563; padding: 6px 4px; width: 85px; text-align: center; color: #111827;">Loại</th>
+                <th style="border: 1px solid #4b5563; padding: 6px 4px; width: 60px; text-align: center; color: #111827;">Cược</th>
+                <th style="border: 1px solid #4b5563; padding: 6px 6px; text-align: right; color: #111827;">Tiền</th>
+                <th style="border: 1px solid #4b5563; padding: 6px 6px; text-align: right; color: #111827;">Tiền Trúng</th>
+                <th style="border: 1px solid #4b5563; padding: 6px 4px; width: 55px; text-align: center; color: #111827;">Trúng</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map(r => `
+                <tr>
+                  <td style="border: 1px solid #4b5563; padding: 5px 4px; text-align: center; font-weight: 700; background: #fafafa;">${r.name}</td>
+                  <td style="border: 1px solid #4b5563; padding: 5px 4px; text-align: center; font-weight: 600;">${r.cuoc}</td>
+                  <td style="border: 1px solid #4b5563; padding: 5px 6px; text-align: right; font-family: Consolas, monospace; font-weight: 600;">${r.tien}</td>
+                  <td style="border: 1px solid #4b5563; padding: 5px 6px; text-align: right; font-family: Consolas, monospace; font-weight: 700; color: ${parseFloat(r.trungTien) > 0 ? '#b91c1c' : '#111827'};">${r.trungTien}</td>
+                  <td style="border: 1px solid #4b5563; padding: 5px 4px; text-align: center; font-weight: 700; color: ${parseFloat(r.trung) > 0 ? '#b91c1c' : '#111827'};">${r.trung}</td>
+                </tr>
+              `).join('')}
+              <tr style="background-color: #f9fafb; font-weight: 700;">
+                <td style="border: 1px solid #4b5563; padding: 6px 4px; text-align: center;">Thầu</td>
+                <td style="border: 1px solid #4b5563; padding: 6px 4px;"></td>
+                <td style="border: 1px solid #4b5563; padding: 6px 6px; text-align: right; font-family: Consolas, monospace;">${totalTien}</td>
+                <td style="border: 1px solid #4b5563; padding: 6px 6px; text-align: right; font-family: Consolas, monospace; color: ${parseFloat(bonusTotal) > 0 ? '#b91c1c' : '#111827'};">${bonusTotal}</td>
+                <td style="border: 1px solid #4b5563; padding: 6px 4px;"></td>
+              </tr>
+              <tr style="background-color: #f3f4f6; font-weight: 800;">
+                <td style="border: 1px solid #4b5563; padding: 8px 4px; text-align: center; font-size: 13px;">Tổng thanh toán</td>
+                <td style="border: 1px solid #4b5563; padding: 8px 4px;"></td>
+                <td colspan="2" style="border: 1px solid #4b5563; padding: 8px 6px; text-align: center; font-size: 16px; font-family: Consolas, monospace; color: ${parseFloat(finalResult) < 0 ? '#b91c1c' : '#111827'};">${finalResult}</td>
+                <td style="border: 1px solid #4b5563; padding: 8px 4px;"></td>
+              </tr>
+            </tbody>
+          </table>
+        `;
+
+        document.body.appendChild(targetWrapper);
+
+        // Chụp với scale 2 (đảm bảo độ nét cao trên màn hình điện thoại)
+        const canvas = await html2canvas(targetWrapper, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: "#ffffff"
+        });
+
+        document.body.removeChild(targetWrapper);
+
+        canvas.toBlob(async function (blob) {
+          if (!blob) {
+            alert("Không thể tạo ảnh. Vui lòng thử lại!");
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            return;
+          }
+
+          if (navigator.clipboard && window.ClipboardItem) {
+            try {
+              const item = new ClipboardItem({ "image/png": blob });
+              await navigator.clipboard.write([item]);
+              alert("✅ Đã sao chép ảnh bảng tính cược!\nBạn chỉ cần mở Zalo và nhấn Ctrl + V để dán gửi ngay.");
+            } catch (err) {
+              console.warn("ClipboardItem write failed, tải ảnh xuống thay thế:", err);
+              downloadImageFallback(blob);
+            }
+          } else {
+            downloadImageFallback(blob);
+          }
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }, "image/png");
+
+      } catch (error) {
+        console.error("Lỗi khi tạo ảnh:", error);
+        alert("Có lỗi khi tạo ảnh: " + error.message);
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    function downloadImageFallback(blob) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Bang_tinh_cuoc_${Date.now()}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      alert("Ảnh bảng tính cược đã được tải về máy của bạn để gửi qua Zalo.");
+    }
+
+    // Gán các sự kiện
+    document.addEventListener("DOMContentLoaded", function () {
+      const normalizeButton = document.getElementById("normalizeButton");
+      const numbersInput = document.getElementById("numbers");
+      const copyInputListButton = document.getElementById("copyInputListButton");
+      const inputList = document.getElementById("inputList");
+
+      // Nút copy ảnh bảng cược gửi Zalo
+      const copyTableImageBtn = document.getElementById("copyTableImageBtn");
+      if (copyTableImageBtn) {
+        copyTableImageBtn.addEventListener("click", copyTableImage);
+      }
+
+      // Xóa khoảng trắng đầu dòng khi bấm chuẩn hóa
+      normalizeButton.addEventListener("click", function () {
+        const inputText = numbersInput.value;
+        const lines = inputText.split("\n");
+        const normalizedLines = lines.map(line => line.replace(/^\s+/, ""));
+        numbersInput.value = normalizedLines.join("\n");
+        normalizeTwentySevenNumbers();
+      });
+
+      // Sao chép Input List
+      copyInputListButton.addEventListener("click", function () {
+        const inputListContent = inputList.innerText;
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(inputListContent)
+            .then(() => alert("Nội dung đã được sao chép thành công!"))
+            .catch(() => alert("Sao chép thất bại. Vui lòng thử lại."));
+        } else {
+          const textArea = document.createElement("textarea");
+          textArea.value = inputListContent;
+          textArea.style.position = "fixed";
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          try {
+            document.execCommand("copy");
+            alert("Nội dung đã được sao chép thành công!");
+          } catch (e) {
+            alert("Sao chép thất bại.");
+          } finally {
+            document.body.removeChild(textArea);
+          }
+        }
+      });
+
+      // Quản lý cài đặt Giữ lại (Lưu/Tải localStorage & Tự động cập nhật Chuyển)
+      const retainCats = ['de', 'lo', 'xien', 'bacang'];
+      function saveRetainSettings() {
+        const settings = {};
+        retainCats.forEach(k => {
+          settings[k] = {
+            val: document.getElementById(`retainVal_${k}`)?.value || "0",
+            type: document.getElementById(`retainType_${k}`)?.value || "money",
+            max: document.getElementById(`retainMax_${k}`)?.value || ""
+          };
+        });
+        localStorage.setItem("bet_retain_settings_v2", JSON.stringify(settings));
+      }
+
+      function loadRetainSettings() {
+        try {
+          const raw = localStorage.getItem("bet_retain_settings_v2");
+          if (raw) {
+            const settings = JSON.parse(raw);
+            retainCats.forEach(k => {
+              if (settings[k]) {
+                const valEl = document.getElementById(`retainVal_${k}`);
+                const typeEl = document.getElementById(`retainType_${k}`);
+                const maxEl = document.getElementById(`retainMax_${k}`);
+                if (valEl && settings[k].val !== undefined) valEl.value = settings[k].val;
+                if (typeEl && settings[k].type !== undefined) typeEl.value = settings[k].type;
+                if (maxEl && settings[k].max !== undefined) maxEl.value = settings[k].max;
+              }
+            });
+          }
+        } catch (e) {
+          console.error("Lỗi đọc retain settings:", e);
+        }
+      }
+
+      loadRetainSettings();
+
+      // Gán sự kiện cho các ô cài đặt giữ lại: lưu và tự động cập nhật Chuyển
+      retainCats.forEach(k => {
+        const valEl = document.getElementById(`retainVal_${k}`);
+        const typeEl = document.getElementById(`retainType_${k}`);
+        const maxEl = document.getElementById(`retainMax_${k}`);
+
+        [valEl, maxEl].forEach(inp => {
+          if (!inp) return;
+          inp.addEventListener("focus", function () {
+            if (this.value === "0") this.value = "";
+          });
+          inp.addEventListener("blur", function () {
+            if (this.id.startsWith("retainVal_") && this.value.trim() === "") this.value = "0";
+            saveRetainSettings();
+            calculateSum();
+          });
+          inp.addEventListener("input", function () {
+            saveRetainSettings();
+            calculateSum();
+          });
+        });
+
+        if (typeEl) {
+          typeEl.addEventListener("change", function () {
+            saveRetainSettings();
+            calculateSum();
+          });
+        }
+      });
+
+      // Nút tính tổng
+      var calculateButton = document.getElementById("calculateButton");
+      calculateButton.addEventListener("click", function () {
+        calculateSum();
+        processInputNumbers();
+      });
+
+      // Nút sao chép chuyển
+      var clipboardButton = document.getElementById("copyButton");
+      clipboardButton.addEventListener("click", copyText);
+
+      // Tự động lấy kết quả 27 giải Miền Bắc từ Minh Ngọc
+      async function fetchMinhNgocKQXS() {
+        const btn = document.getElementById("btnFetchMinhNgoc");
+        const statusEl = document.getElementById("minhngocStatus");
+        const originalText = btn ? btn.innerHTML : "🔄 Lấy KQ Minh Ngọc";
+
+        if (btn) {
+          btn.disabled = true;
+          btn.innerHTML = "⏳ Đang lấy...";
+        }
+        if (statusEl) {
+          statusEl.style.color = "#4b5563";
+          statusEl.textContent = "Đang kết nối tới Minh Ngọc...";
+        }
+
+        // Mini wrapper jQuery cho script của Minh Ngọc nếu chưa có
+        if (!window.$) {
+          window.$ = function (selector) {
+            const els = document.querySelectorAll(selector);
+            return {
+              html: function (str) {
+                els.forEach(el => el.innerHTML = str);
+                return this;
+              },
+              append: function (str) {
+                els.forEach(el => el.insertAdjacentHTML('beforeend', str));
+                return this;
+              },
+              css: function (prop, val) {
+                els.forEach(el => { if (el.style) el.style[prop] = val; });
+                return this;
+              }
+            };
+          };
+        }
+
+        let box = document.getElementById("box_kqxs_minhngoc");
+        if (!box) {
+          box = document.createElement("div");
+          box.id = "box_kqxs_minhngoc";
+          box.style.display = "none";
+          document.body.appendChild(box);
+        }
+        box.innerHTML = "";
+
+        const oldScript = document.getElementById("script_minhngoc_widget");
+        if (oldScript) oldScript.remove();
+
+        const loadScriptPromise = new Promise((resolve, reject) => {
+          const script = document.createElement("script");
+          script.id = "script_minhngoc_widget";
+          script.type = "text/javascript";
+          const timer = setTimeout(() => {
+            script.remove();
+            reject(new Error("Quá thời gian tải kết quả (5 giây)"));
+          }, 5000);
+
+          script.onload = () => {
+            clearTimeout(timer);
+            try {
+              const prizes = [];
+              const classList = ['giaidb', 'giai1', 'giai2', 'giai3', 'giai4', 'giai5', 'giai6', 'giai7'];
+              classList.forEach(cls => {
+                const els = box.querySelectorAll(`.${cls}`);
+                els.forEach(el => {
+                  const text = el.textContent || '';
+                  const nums = text.split(/[\s\-–—,.\n\r]+/).map(n => n.trim()).filter(n => n.length >= 2 && /^\d+$/.test(n));
+                  prizes.push(...nums);
+                });
+              });
+
+              if (prizes.length === 0) {
+                return reject(new Error("Chưa có kết quả hoặc không trích xuất được 27 giải."));
+              }
+
+              const dateEl = box.querySelector('.ngay');
+              const dateText = dateEl ? dateEl.textContent.trim().replace(/^ng[aà]y:\s*/i, '') : "";
+              resolve({ prizes, dateText });
+            } catch (err) {
+              reject(err);
+            }
+          };
+
+          script.onerror = () => {
+            clearTimeout(timer);
+            script.remove();
+            reject(new Error("Không kết nối được server Minh Ngọc."));
+          };
+
+          script.src = `https://www.minhngoc.net.vn/getkqxs/mien-bac.js?t=${Date.now()}`;
+          document.body.appendChild(script);
+        });
+
+        try {
+          const data = await loadScriptPromise;
+          const textarea = document.getElementById("twentySevenNumbers");
+          if (textarea) {
+            textarea.value = data.prizes.join(" ");
+          }
+
+          if (statusEl) {
+            statusEl.style.color = "#059669";
+            statusEl.textContent = `✓ Đã cập nhật đủ ${data.prizes.length} giải (${data.dateText ? 'Ngày ' + data.dateText : 'Miền Bắc'})`;
+          }
+
+          // Tự động tính toán lại và so khớp các giải trúng
+          calculateSum();
+          processInputNumbers();
+        } catch (err) {
+          console.error("Lỗi lấy KQXS Minh Ngọc:", err);
+          if (statusEl) {
+            statusEl.style.color = "#dc2626";
+            statusEl.textContent = `✗ ${err.message || "Lỗi khi lấy kết quả"}`;
+          }
+        } finally {
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+          }
+        }
+      }
+
+      const btnFetchMinhNgoc = document.getElementById("btnFetchMinhNgoc");
+      if (btnFetchMinhNgoc) {
+        btnFetchMinhNgoc.addEventListener("click", fetchMinhNgocKQXS);
+      }
+
+      // Nạp cài đặt giá & thưởng từ localStorage và tính toán bảng cược
+      loadPriceSettings();
+      BET_ROW_KEYS.forEach(k => {
+        calculateResultRow(k);
+      });
+
+      // Chạy tính toán ban đầu
+      calculateSum();
+    });
+  </script>
+</body>
+
+</html>
